@@ -158,6 +158,9 @@ mvn test -Pperf-test -DsimulationClass=gatling.test.example.simulation.SomeOther
 The plugin can be configured to run all the simulations by setting the configuration property `runMultipleSimulations` 
 to `true`.
   
+## Links
+* Gatling: http://gatling.io  
+* 
 
 
 
