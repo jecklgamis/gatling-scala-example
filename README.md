@@ -155,7 +155,8 @@ Simply override the property `simulationClass` to run a different simulation.
 mvn test -Pperf-test -DsimulationClass=gatling.test.example.simulation.SomeOtherSimulation
 ```
 
-The plugin can be configured all the simulations by setting the configuration property `runMultipleSimulations` to `true`.
+The plugin can be configured to run all the simulations by setting the configuration property `runMultipleSimulations` 
+to `true`.
   
 
 
