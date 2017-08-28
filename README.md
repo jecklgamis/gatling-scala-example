@@ -160,7 +160,7 @@ to `true`.
   
 ## Links
 * Gatling: http://gatling.io  
-* 
+* Scala: http://scala-lang.org
 
 
 
