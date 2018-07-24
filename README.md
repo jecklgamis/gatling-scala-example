@@ -157,6 +157,12 @@ mvn test -Pperf-test -DsimulationClass=gatling.test.example.simulation.SomeOther
 
 The plugin can be configured to run all the simulations by setting the configuration property `runMultipleSimulations` 
 to `true`.
+
+## Running Test Using Executable Jar
+```
+mvn clean install
+java ${JAVA_OPTS} -cp target/gatling-test-example.jar io.gatling.app.Gatling -s gatling.test.example.simulation.ExampleSimulation
+```
   
 ## Links
 * Gatling: http://gatling.io  

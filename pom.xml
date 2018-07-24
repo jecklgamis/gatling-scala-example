@@ -12,8 +12,8 @@
     <packaging>jar</packaging>
 
     <properties>
-        <gatling.version>2.2.5</gatling.version>
-        <scala.version>2.11.8</scala.version>
+        <gatling.version>2.3.1</gatling.version>
+        <scala.version>2.12.6</scala.version>
         <simulationClass>gatling.test.example.simulation.ExampleSimulation</simulationClass>
     </properties>
 
@@ -21,6 +21,11 @@
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
+            <version>${scala.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-reflect</artifactId>
             <version>${scala.version}</version>
         </dependency>
         <dependency>
@@ -48,6 +53,11 @@
             <groupId>io.gatling.highcharts</groupId>
             <artifactId>gatling-charts-highcharts</artifactId>
             <scope>runtime</scope>
+            <version>${gatling.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.gatling</groupId>
+            <artifactId>gatling-app</artifactId>
             <version>${gatling.version}</version>
         </dependency>
     </dependencies>
@@ -93,7 +103,33 @@
                     <useZincServer>true</useZincServer>
                 </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <finalName>${project.name}</finalName>
+                    <createDependencyReducedPom>true</createDependencyReducedPom>
+                    <filters>
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>META-INF/*.SF</exclude>
+                                <exclude>META-INF/*.DSA</exclude>
+                                <exclude>META-INF/*.RSA</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
