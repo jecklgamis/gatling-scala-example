@@ -12,8 +12,8 @@
     <packaging>jar</packaging>
 
     <properties>
-        <gatling.version>2.3.1</gatling.version>
-        <scala.version>2.12.6</scala.version>
+        <gatling.version>3.0.0</gatling.version>
+        <scala.version>2.12.7</scala.version>
         <simulationClass>gatling.test.example.simulation.ExampleSimulation</simulationClass>
     </properties>
 
@@ -47,7 +47,7 @@
         <dependency>
             <groupId>io.gatling</groupId>
             <artifactId>gatling-metrics</artifactId>
-            <version>${gatling.version}</version>
+            <version>2.3.1</version>
         </dependency>
         <dependency>
             <groupId>io.gatling.highcharts</groupId>
@@ -141,9 +141,9 @@
                     <plugin>
                         <groupId>io.gatling</groupId>
                         <artifactId>gatling-maven-plugin</artifactId>
-                        <version>2.2.4</version>
+                        <version>3.0.0</version>
                         <configuration>
-                            <simulationsFolder>src/test/scala</simulationsFolder>
+                            <simulationsFolder>src/main/scala</simulationsFolder>
                             <runMultipleSimulations>false</runMultipleSimulations>
                             <simulationClass>${simulationClass}</simulationClass>
                         </configuration>
@@ -152,7 +152,7 @@
                                 <id>run-on-test</id>
                                 <phase>test</phase>
                                 <goals>
-                                    <goal>execute</goal>
+                                    <goal>test</goal>
                                 </goals>
                             </execution>
                         </executions>
