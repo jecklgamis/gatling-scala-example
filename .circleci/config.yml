@@ -19,5 +19,5 @@ jobs:
           paths:
             - ~/.m2
           key: gating-test-example-{{ checksum "pom.xml" }}
-      - run: docker build -t jecklgamis/gatling-test-example:$CIRCLE_BRANCH .
-      - run: docker push jecklgamis/gatling-test-example:$CIRCLE_BRANCH .
+      - run: docker build -t jecklgamis/gatling-test-example:latest .
+      - run: docker push jecklgamis/gatling-test-example:latest .
