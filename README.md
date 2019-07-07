@@ -179,6 +179,19 @@ Run the Docker container (`make run`):
 docker run -e "JAVA_OPTS=-DbaseUrl=http://some-app:8080" -e SIMULATION_NAME=gatling.test.example.simulation.ExampleGetSimulation gatling-test-example:latest
 ```
 This runs `ExampleGetSimulation` test against an HTTP server `some-app` running on port 8080.
+
+## Example Target Apps
+
+Dropwizard Apps:
+* https://github.com/jecklgamis/dropwizard-java-example
+* https://github.com/jecklgamis/dropwizard-kotlin-example
+* https://github.com/jecklgamis/dropwizard-scala-example
+
+Spring Boot Apps:
+* https://github.com/jecklgamis/spring-boot-java-example
+* https://github.com/jecklgamis/spring-boot-kotlin-example
+* https://github.com/jecklgamis/spring-boot-scala-example
+
   
 ## Links
 * Gatling: http://gatling.io  
