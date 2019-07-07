@@ -1,4 +1,6 @@
-# gatling-test-example [![Build Status](https://travis-ci.org/jecklgamis/gatling-test-example.svg?branch=master)](https://travis-ci.org/jecklgamis/gatling-test-example)
+# gatling-test-example 
+
+[![CircleCI](https://circleci.com/gh/jecklgamis/gatling-test-example.svg?style=svg)](https://circleci.com/gh/jecklgamis/gatling-test-example)
 
 This is an example test using Gatling. A minimal HTTP server is used as an example system under test.
 Gatling simulations are written in Scala.
