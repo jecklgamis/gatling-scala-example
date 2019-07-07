@@ -19,6 +19,6 @@ jobs:
           paths:
             - ~/.m2
           key: gatling-test-example-{{ checksum "pom.xml" }}
-      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - run: echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
       - run: docker build -t jecklgamis/gatling-test-example:latest .
       - run: docker push jecklgamis/gatling-test-example:latest
