@@ -30,11 +30,6 @@
         </dependency>
         <dependency>
             <groupId>io.gatling</groupId>
-            <artifactId>gatling-app</artifactId>
-            <version>${gatling.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.gatling</groupId>
             <artifactId>gatling-core</artifactId>
             <version>${gatling.version}</version>
         </dependency>
