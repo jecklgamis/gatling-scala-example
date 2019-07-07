@@ -8,7 +8,6 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
-      - run: echo 127.0.0.1 devhost | sudo tee -a /etc/hosts
       - restore_cache:
           paths:
             - ~/.m2
