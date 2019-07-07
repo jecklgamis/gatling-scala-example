@@ -6,6 +6,8 @@ jobs:
     working_directory: ~/gating-test-example
     steps:
       - checkout
+      - setup_remote_docker
+        docker_layer_caching: true
       - run: echo 127.0.0.1 devhost | sudo tee -a /etc/hosts
       - restore_cache:
           paths:
@@ -17,3 +19,5 @@ jobs:
           paths:
             - ~/.m2
           key: gating-test-example-{{ checksum "pom.xml" }}
+      - run: docker build -t jecklgamis/gatling-test-example:$CIRCLE_BRANCH .
+      - run: docker push jecklgamis/gatling-test-example:$CIRCLE_BRANCH .

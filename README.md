@@ -163,6 +163,20 @@ to `true`.
 mvn clean install
 java ${JAVA_OPTS} -cp target/gatling-test-example.jar io.gatling.app.Gatling -s gatling.test.example.simulation.ExampleSimulation
 ```
+
+## Running Test Using Docker Container
+
+Create a Docker container (`make dist image`):
+```
+mvn clean package 
+docker build -t gatling-test-example .
+```
+
+Run the Docker container (`make run`):
+```
+docker run -e "JAVA_OPTS=-DbaseUrl=http://some-app:8080" -e SIMULATION_NAME=gatling.test.example.simulation.ExampleGetSimulation gatling-test-example:latest
+```
+This runs `ExampleGetSimulation` test against an HTTP server `some-app` running on port 8080.
   
 ## Links
 * Gatling: http://gatling.io  
