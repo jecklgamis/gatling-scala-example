@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       - image: circleci/openjdk:8-jdk-browsers
-    working_directory: ~/gating-test-example
+    working_directory: ~/gatling-test-example
     steps:
       - checkout
       - setup_remote_docker:
@@ -12,13 +12,13 @@ jobs:
       - restore_cache:
           paths:
             - ~/.m2
-          key: gating-test-example-{{ checksum "pom.xml" }}
+          key: gatling-test-example-{{ checksum "pom.xml" }}
       - run: mvn dependency:go-offline
       - run: mvn clean install
       - save_cache:
           paths:
             - ~/.m2
-          key: gating-test-example-{{ checksum "pom.xml" }}
+          key: gatling-test-example-{{ checksum "pom.xml" }}
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run: docker build -t jecklgamis/gatling-test-example:latest .
       - run: docker push jecklgamis/gatling-test-example:latest
