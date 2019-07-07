@@ -1,0 +1,19 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:8-jdk-browsers
+    working_directory: ~/gating-test-example
+    steps:
+      - checkout
+      - run: echo 127.0.0.1 devhost | sudo tee -a /etc/hosts
+      - restore_cache:
+          paths:
+            - ~/.m2
+          key: gating-test-example-{{ checksum "pom.xml" }}
+      - run: mvn dependency:go-offline
+      - run: mvn clean install
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: gating-test-example-{{ checksum "pom.xml" }}
