@@ -192,6 +192,8 @@ Spring Boot Apps:
 * https://github.com/jecklgamis/spring-boot-kotlin-example
 * https://github.com/jecklgamis/spring-boot-scala-example
 
+Flask App:
+* https://github.com/jecklgamis/flask-example-app
   
 ## Links
 * Gatling: http://gatling.io  
