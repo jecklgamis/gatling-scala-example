@@ -180,6 +180,76 @@ docker run -e "JAVA_OPTS=-DbaseUrl=http://some-app:8080" -e SIMULATION_NAME=gatl
 ```
 This runs `ExampleGetSimulation` test against an HTTP server `some-app` running on port 8080.
 
+## Running Test as Kubernetes Job
+* Ensure you have Kubernetes cluster and properly configured `kubectl`
+* Ensure you have Python 3 installed
+
+#### Install Python 3 dependencies
+```
+pip3 install jinja2 argparse
+```
+
+This example setup runs tests against `http://some-app:8080`.
+
+####  Generate `job.yaml` from `job-template.yaml`
+```
+./create-job-yaml.py --java_opts "-DbaseUrl=http://some-app:8080 -DdurationMin=0.25 -DrequestPerSecond=10"  --simulation "gatling.test.example.simulation.ExampleGetSimulation"
+```
+
+`job-template.yaml` is a [Jinja2](https://palletsprojects.com/p/jinja/) template file.
+```
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: gatling-test-example
+  labels:
+    jobgroup: gatling
+spec:
+  backoffLimit: 1
+  template:
+    spec:
+      containers:
+        - name: gatling-test-example
+          image: jecklgamis/gatling-test-example
+          imagePullPolicy: Always
+          env:
+            - name: JAVA_OPTS
+              value: "{{ java_opts }}"
+            - name: SIMULATION_NAME
+              value: "{{ simulation_name }}"
+      restartPolicy: Never
+```
+
+####  Create Job 
+```
+kubectl apply -f job.yaml
+```
+
+####  View Job
+```
+kubectl get jobs/gatling-test-example -o wide
+```
+Example output:
+```
+NAME                   COMPLETIONS   DURATION   AGE   CONTAINERS             IMAGES                            SELECTOR
+gatling-test-example   1/1           24s        25s   gatling-test-example   jecklgamis/gatling-test-example   controller-uid=2f37ee78-09b9-4aa9-90ac-872db13522b6
+```
+
+#### View Pods
+```
+kubectl get pods -l job-name==gatling-test-example -o wide
+```
+Example output:
+```
+NAME                         READY   STATUS      RESTARTS   AGE   IP             NODE      NOMINATED NODE   READINESS GATES
+gatling-test-example-2mz4s   0/1     Completed   0          56s   10.244.0.237   okinawa   <none>           <none>
+```
+
+#### Delete job
+```
+kubectl delete -f job.yaml
+```
+
 ## Example Target Apps
 
 Dropwizard Apps:
