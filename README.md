@@ -189,10 +189,9 @@ This runs `ExampleGetSimulation` test against an HTTP server `some-app` running 
 pip3 install jinja2 argparse
 ```
 
-This example setup runs tests against `http://some-app:8080`.
-
 ####  Generate `job.yaml` from `job-template.yaml`
 ```
+cd deployment/k8s/job
 ./create-job-yaml.py --java_opts "-DbaseUrl=http://some-app:8080 -DdurationMin=0.25 -DrequestPerSecond=10"  --simulation "gatling.test.example.simulation.ExampleGetSimulation"
 ```
 
