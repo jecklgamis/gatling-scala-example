@@ -236,7 +236,7 @@ gatling-test-example   1/1           24s        25s   gatling-test-example   jec
 
 #### View Pods
 ```
-kubectl get pods -l job-name==gatling-test-example -o wide
+kubectl get pods -l job-name=gatling-test-example -o wide
 ```
 Example output:
 ```
