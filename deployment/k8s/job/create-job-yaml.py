@@ -1,20 +1,27 @@
 #!/usr/bin/env python3
 
 import argparse
-import os
+import uuid
 
 from jinja2 import Template
 
 
-def write_job_file(template, output, java_opts, simulation_name):
+def write_job_file(template, output, name, java_opts, simulation_name):
     template = Template(open(template, 'rt').read())
-    content = template.render(java_opts=java_opts, simulation_name=simulation_name)
+    content = template.render(name=name, java_opts=java_opts, simulation_name=simulation_name)
     open(output, 'wt').write(content)
-    print(f"Wrote {os.path.abspath(output)} with content \n{content}")
+    print(f"Wrote {output}")
 
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Run Gatling simulation')
+    id = f"{str(uuid.uuid4())[:8]}"
+    parser.add_argument('--out',
+                        default=f"job.yaml",
+                        help='Job filename')
+    parser.add_argument('--name',
+                        default=f"gatling-test-example-{id}",
+                        help='Job name')
     parser.add_argument('--java_opts',
                         default='-Dbaseurl=http://localhost:8080 -DrequestPerSecond=10 -DdurationMin=0.25',
                         help='Java opts')
@@ -25,7 +32,4 @@ def parse_args():
 
 
 args = parse_args()
-print(f"Using java_opts = {args.java_opts}")
-print(f"Using simulation = {args.simulation}")
-
-write_job_file('job-template.yaml', "job.yaml", args.java_opts, args.simulation)
+write_job_file('job-template.yaml', args.out, args.name, args.java_opts, args.simulation)

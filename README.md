@@ -192,7 +192,7 @@ pip3 install jinja2 argparse
 ####  Generate `job.yaml` from `job-template.yaml`
 ```
 cd deployment/k8s/job
-./create-job-yaml.py --java_opts "-DbaseUrl=http://some-app:8080 -DdurationMin=0.25 -DrequestPerSecond=10"  --simulation "gatling.test.example.simulation.ExampleGetSimulation"
+./create-job-yaml.py --out job.yaml --name gatling-test-example --java_opts "-DbaseUrl=http://some-app:8080 -DdurationMin=0.25 -DrequestPerSecond=10" --simulation "gatling.test.example.simulation.ExampleGetSimulation"
 ```
 
 `job-template.yaml` is a [Jinja2](https://palletsprojects.com/p/jinja/) template file.
@@ -200,11 +200,9 @@ cd deployment/k8s/job
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: gatling-test-example
-  labels:
-    jobgroup: gatling
+  name: "{{ name }}"
 spec:
-  backoffLimit: 1
+  backoffLimit: 0
   template:
     spec:
       containers:
@@ -220,33 +218,51 @@ spec:
 ```
 
 ####  Create Job 
-```
+```shell script
 kubectl apply -f job.yaml
+```
+Example output:
+```shell script
+job.batch/gatling-test-example created
 ```
 
 ####  View Job
-```
+```shell script
 kubectl get jobs/gatling-test-example -o wide
 ```
 Example output:
-```
+```shell script
 NAME                   COMPLETIONS   DURATION   AGE   CONTAINERS             IMAGES                            SELECTOR
 gatling-test-example   1/1           24s        25s   gatling-test-example   jecklgamis/gatling-test-example   controller-uid=2f37ee78-09b9-4aa9-90ac-872db13522b6
 ```
 
 #### View Pods
-```
+```shell script
 kubectl get pods -l job-name=gatling-test-example -o wide
 ```
 Example output:
-```
+```shell script
 NAME                         READY   STATUS      RESTARTS   AGE   IP             NODE      NOMINATED NODE   READINESS GATES
 gatling-test-example-2mz4s   0/1     Completed   0          56s   10.244.0.237   okinawa   <none>           <none>
 ```
 
-#### Delete job
+#### Get Pod Logs
+```shell script
+kubectl logs <pod-name>
 ```
+
+#### Delete job
+```shell script
 kubectl delete -f job.yaml
+```
+
+### Reference Helper Scripts
+```shell script
+create-job.sh 
+describe-job.sh
+wait-job.sh
+delete-job.sh		
+delete-all-jobs.sh	
 ```
 
 ## Example Target Apps
