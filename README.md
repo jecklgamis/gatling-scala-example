@@ -5,10 +5,6 @@
 This is an example test using Gatling. A minimal HTTP server is used as an example system under test.
 Gatling simulations are written in Scala.
 
-Gatling Test Run Demo in Kubernetes
-
-[![asciicast](https://asciinema.org/a/olZOiCQ8AG9UBke8HZxPFrJRN)](https://asciinema.org/a/olZOiCQ8AG9UBke8HZxPFrJRN)
-
 ## Getting Started
 
 Start the example app on port 8080. The test app is a minimal HTTP server written in NodeJS. The
