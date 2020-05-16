@@ -251,12 +251,14 @@ gatling-test-example-2mz4s   0/1     Completed   0          56s   10.244.0.237  
 kubectl logs <pod-name>
 ```
 
-#### Delete job
+#### Delete Job
 ```shell script
 kubectl delete -f job.yaml
 ```
 
 ### Reference Helper Scripts
+
+The scripts below can be found in `deployment/k8s/job` directory.
 ```shell script
 create-job.sh 
 describe-job.sh
