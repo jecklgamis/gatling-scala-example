@@ -260,10 +260,10 @@ kubectl delete -f job.yaml
 
 The scripts below can be found in `deployment/k8s/job` directory.
 
-* [create-job.sh](deploymment/k8s/job/create-job.sh) 
-* [describe-job.sh](deploymment/k8s/job/describe-job.sh) 
-* [wait-job.sh](deploymment/k8s/job/wait-job.sh) 
-* [delete-job.sh](deploymment/k8s/job/delete-job.sh) 
+* [create-job.sh](deployment/k8s/job/create-job.sh) 
+* [describe-job.sh](deployment/k8s/job/describe-job.sh) 
+* [wait-job.sh](deployment/k8s/job/wait-job.sh) 
+* [delete-job.sh](deployment/k8s/job/delete-job.sh) 
 
 ## Example Target Apps
 
