@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 if [ -z "$1" ]; then
   echo "Usage : $0 <job-name>"
   echo "Available jobs:"
@@ -9,4 +8,4 @@ if [ -z "$1" ]; then
   exit 1
 fi
 JOB_NAME=$1
-kubectl describe job ${JOB_NAME}
+kubectl describe pod -l job-name=${JOB_NAME}

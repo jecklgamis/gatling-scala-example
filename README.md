@@ -181,21 +181,38 @@ docker run -e "JAVA_OPTS=-DbaseUrl=http://some-app:8080" -e SIMULATION_NAME=gatl
 This runs `ExampleGetSimulation` test against an HTTP server `some-app` running on port 8080.
 
 ## Running Test as Kubernetes Job
-* Ensure you have Kubernetes cluster and properly configured `kubectl`
-* Ensure you have Python 3 installed
+
+This assumes you have a basic knowledge of [Kubernetes](https://kubernetes.io/docs/tutorials/kubernetes-basics/)
+and a have access to a Kubernetes cluster. This usually means you have a properly configured `kubectl` config
+(`~/.kube/config`). Also ensure you have Python 3 installed. 
+
+In this example setup, a  [Jinja2](https://palletsprojects.com/p/jinja/)  template `job-template.yaml` is used generate the 
+actual Job yaml file to be used in `kubectl`. The helper script `./create-job-yaml.py` is used to generate this file.
 
 #### Install Python 3 dependencies
 ```
 pip3 install jinja2 argparse
 ```
 
-####  Generate `job.yaml` from `job-template.yaml`
+Here is a demo run using the helper scripts in `deployment/k8s/job`. 
+
+![Kubernetes Job Demo](k8s-job-demo.gif)
+
+You should be able to replicate it in your local environment.
+```shell script
+cd deployment/k8s/job
+./demo-run-in-k8s.sh
+```
+
+For a step by step procedure, read on.
+
+1.  Generate `job.yaml` from `job-template.yaml`
 ```
 cd deployment/k8s/job
 ./create-job-yaml.py --out job.yaml --name gatling-test-example --java_opts "-DbaseUrl=http://some-app:8080 -DdurationMin=0.25 -DrequestPerSecond=10" --simulation "gatling.test.example.simulation.ExampleGetSimulation"
 ```
 
-`job-template.yaml` is a [Jinja2](https://palletsprojects.com/p/jinja/) template file.
+`job-template.yaml` template file.
 ```
 apiVersion: batch/v1
 kind: Job
@@ -217,7 +234,7 @@ spec:
       restartPolicy: Never
 ```
 
-####  Create Job 
+2. Create Job 
 ```shell script
 kubectl apply -f job.yaml
 ```
@@ -226,7 +243,7 @@ Example output:
 job.batch/gatling-test-example created
 ```
 
-####  View Job
+3. View Job 
 ```shell script
 kubectl get jobs/gatling-test-example -o wide
 ```
@@ -236,7 +253,7 @@ NAME                   COMPLETIONS   DURATION   AGE   CONTAINERS             IMA
 gatling-test-example   1/1           24s        25s   gatling-test-example   jecklgamis/gatling-test-example   controller-uid=2f37ee78-09b9-4aa9-90ac-872db13522b6
 ```
 
-#### View Pods
+4. View Pods
 ```shell script
 kubectl get pods -l job-name=gatling-test-example -o wide
 ```
@@ -246,12 +263,12 @@ NAME                         READY   STATUS      RESTARTS   AGE   IP            
 gatling-test-example-2mz4s   0/1     Completed   0          56s   10.244.0.237   okinawa   <none>           <none>
 ```
 
-#### Get Pod Logs
+5. Get Pod Logs
 ```shell script
 kubectl logs <pod-name>
 ```
 
-#### Delete Job
+6. Delete Job
 ```shell script
 kubectl delete -f job.yaml
 ```
@@ -262,10 +279,13 @@ The scripts below can be found in `deployment/k8s/job` directory.
 
 * [create-job.sh](deployment/k8s/job/create-job.sh) 
 * [describe-job.sh](deployment/k8s/job/describe-job.sh) 
+* [describe-pod.sh](deployment/k8s/job/describe-pod.sh)
 * [wait-job.sh](deployment/k8s/job/wait-job.sh) 
 * [delete-job.sh](deployment/k8s/job/delete-job.sh) 
 
 ## Example Target Apps
+
+Some example apps.
 
 Dropwizard Apps:
 * https://github.com/jecklgamis/dropwizard-java-example

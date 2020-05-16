@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -ex
 
 JAVA_OPTS="-DbaseUrl=http://172.16.0.50:8080 -DdurationMin=0.25 -DrequestPerSecond=10"
 SIMULATION_NAME="gatling.test.example.simulation.ExampleGetSimulation"

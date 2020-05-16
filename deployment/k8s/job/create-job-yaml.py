@@ -14,7 +14,7 @@ def write_job_file(template, output, name, java_opts, simulation_name):
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='Run Gatling simulation')
+    parser = argparse.ArgumentParser(description='Create Kubernetes Job YAML file')
     id = f"{str(uuid.uuid4())[:8]}"
     parser.add_argument('--out',
                         default=f"job.yaml",
