@@ -12,8 +12,8 @@
     <packaging>jar</packaging>
 
     <properties>
-        <gatling.version>3.3.1</gatling.version>
-        <scala.version>2.12.10</scala.version>
+        <gatling.version>3.4.2</gatling.version>
+        <scala.version>2.12.12</scala.version>
         <simulationClass>gatling.test.example.simulation.ExampleSimulation</simulationClass>
     </properties>
 
