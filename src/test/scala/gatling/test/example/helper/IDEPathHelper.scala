@@ -2,7 +2,7 @@ package gatling.test.example.helper
 
 import java.nio.file.Paths
 
-import io.gatling.commons.util.PathHelper._
+import io.gatling.commons.shared.unstable.util.PathHelper._
 
 object IDEPathHelper {
   val gatlingConfUrl = Paths.get(getClass.getClassLoader.getResource("gatling.conf").toURI)

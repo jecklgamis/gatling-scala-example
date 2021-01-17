@@ -1,5 +1,6 @@
 IMAGE_NAME:=jecklgamis/gatling-test-example
 IMAGE_TAG:=latest
+
 default:
 	cat ./Makefile
 dist: 
