@@ -27,12 +27,12 @@ class SingleFileExampleSimulation extends Simulation {
     )
 
   object Utils {
+    val sysProps = new SystemProperties
     val baseUrl = getAsStringOrElse("baseUrl", "http://localhost:8080")
     val requestPerSecond = getAsDoubleOrElse("requestPerSecond", 10f)
     val durationMin = getAsDoubleOrElse("durationMin", 1.0)
     val meanResponseTimeMs = getAsIntOrElse("meanResponseTimeMs", 500)
     val maxResponseTimeMs = getAsIntOrElse("maxResponseTimeMs", 1000)
-    val sysProps = new SystemProperties
 
     def getAsIntOrElse(property: String, default: Int): Int = sysProps.getOrElse(property, default).toString.toInt
 

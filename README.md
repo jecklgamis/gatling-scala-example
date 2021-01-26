@@ -3,7 +3,16 @@
 [![CircleCI](https://circleci.com/gh/jecklgamis/gatling-test-example.svg?style=svg)](https://circleci.com/gh/jecklgamis/gatling-test-example)
 
 This is an example test using Gatling. A minimal HTTP server is used as an example system under test.
-Gatling simulations are written in Scala.
+
+This example demonstrates a number of ways of running Gatling simulations:
+* Running from an executable jar file - this packages the Gatling runtime and simulations into a single jar file
+* Running using Docker - this uses the executable jar file to execute simulations inside a Docker container
+* Running as Kubernetes Job  - this uses the Docker image to run test inside a Kubernetes cluster
+* Running using Maven plugin - this is uses the Gatling Maven Plugin and runs directly from repo (note Gatling has 
+plugins for Gradle and SBT that might suit your use case)
+* Running inside IDE  - this uses a helper class `Engine.scala` to run simulations from IDE. Useful for crafting your
+simulations or  if your just getting started
+* See [gatling-server](https://github.com/jecklgamis/gatling-server) for running simulations using an API server.
 
 ## Getting Started
 
