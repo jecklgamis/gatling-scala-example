@@ -2,17 +2,18 @@
 
 [![CircleCI](https://circleci.com/gh/jecklgamis/gatling-test-example.svg?style=svg)](https://circleci.com/gh/jecklgamis/gatling-test-example)
 
-This is an example test using Gatling. A minimal HTTP server is used as an example system under test.
+This is an example test using [Gatling](https://gatling.io/). A minimal HTTP server is used as an example system under test.
 
-This example demonstrates a number of ways of running Gatling simulations:
+This example demonstrates a number of ways of running simulations :
 * Running from an executable jar file - this packages the Gatling runtime and simulations into a single jar file
 * Running using Docker - this uses the executable jar file to execute simulations inside a Docker container
 * Running as Kubernetes Job  - this uses the Docker image to run test inside a Kubernetes cluster
 * Running using Maven plugin - this uses the Gatling Maven Plugin and runs directly from repo (note Gatling has 
 plugins for Gradle and SBT that might suit your use case)
-* Running inside IDE  - this uses a helper class `Engine.scala` to run simulations from IDE. Useful for crafting your
-simulations or  if your just getting started
-* See [gatling-server](https://github.com/jecklgamis/gatling-server) for running simulations using an API server.
+* Running inside IDE  - this uses a helper class `Engine.scala` to run simulations from IDE. This is useful for crafting 
+your simulations or if your just getting started
+* Running using the standalone distribution.  
+* See [gatling-server](https://github.com/jecklgamis/gatling-server) for running simulations using an API server
 
 ## Getting Started
 
@@ -67,14 +68,12 @@ server.listen(port, function () {
 ```
 
 ## The Test Simulation
-
-From the IDE, run `Engine.scala` and just accept the default run description. The test will send HTTP requests to 
-`http://localhost:8080/` for 1 minute at 10 requests per second. The test also asserts mean response time
-time to be less than 500ms, max response less than  1000ms, and success rate of 95%. 
-
-Below is the actual test simulation.
-
 ```
+import gatling.test.example.simulation.PerfTestConfig.{baseUrl, durationMin, maxResponseTimeMs, meanResponseTimeMs}
+import io.gatling.core.Predef.{StringBody, constantUsersPerSec, global, scenario, _}
+import io.gatling.http.Predef.{http, status, _}
+import scala.language.postfixOps
+
 class ExampleSimulation extends Simulation {
   val httpConf = http.baseURL(baseUrl)
   val rootEndPointUsers = scenario("Root end point calls")
@@ -95,9 +94,7 @@ class ExampleSimulation extends Simulation {
     )
 }
 ```
-
-The url, rate, duration, and asserted values are in `PerfTestConfig.scala`.
-
+The `PerfTestConfig.scala` contains the configurable values such as target url or duration.
 ```
 object PerfTestConfig {
   val baseUrl = getAsStringOrElse("baseUrl", "http://localhost:8080")
@@ -108,10 +105,65 @@ object PerfTestConfig {
 }
 ```
 
+## Running Test From IDE
 
-TIP: The `Engine.scala` and `IDEPathHelper.scala` classes are generated from the Gatling Maven Archetype
-(http://gatling.io/docs/current/extensions/maven_archetype/).
+In the IDE, you can use the helper class `Engine.scala` to run a simulation. Running the `main` method will list
+will list down the simulations you can run. Simply follow the prompts.
 
+The `Engine.scala` and `IDEPathHelper.scala` classes were generated from the [Gatling Maven Archetype](http://gatling.io/docs/current/extensions/maven_archetype/).
+
+## Running Test Using Gatling Maven Plugin
+
+The `gatling-test-maven` in `pom.xml` is configured behind a Maven profile `perf-test`. To run the tests, enable the 
+profile when running `mvn test` command.
+
+```
+mvn test -Pperf-test
+```
+
+The plugin is configured to run `gatling.test.example.simulation.ExampleSimulation` by default.
+Override the property `simulationClass` to run a different simulation.
+
+```
+mvn test -Pperf-test -DsimulationClass=gatling.test.example.simulation.SomeOtherSimulation
+```
+
+The plugin can be configured to run all the simulations by setting the configuration property `runMultipleSimulations` 
+to `true`.
+
+## Running Test Using Executable Jar
+This is self contained executable jar file containing the Gatling runtime and the simulations. 
+After you develop your simulations, you would probably   
+
+Once yo
+```mvn clean install
+java -cp target/gatling-test-example.jar io.gatling.app.Gatling -s gatling.test.example.simulation.ExampleSimulation
+```
+
+## Running Test Using Docker Container
+
+Create a Docker container: 
+```
+mvn clean package 
+docker build -t gatling-test-example .
+```
+You alternatively run `make dist image`.
+
+Run the Docker container:
+```
+docker run -e "JAVA_OPTS=-DbaseUrl=http://sloca:8080" \
+     -e SIMULATION_NAME=gatling.test.example.simulation.ExampleGetSimulation gatling-test-example:latest
+```
+This runs `ExampleGetSimulation` test against an HTTP server `some-target-host` running on port 8080.
+
+## Running Test as Kubernetes Job
+
+This assumes you have a basic knowledge of [Kubernetes](https://kubernetes.io/docs/tutorials/kubernetes-basics/)
+and a have access to a Kubernetes cluster. This usually means you have a properly configured `kubectl` config
+(`~/.kube/config`). Also ensure you have Python 3 installed. 
+
+In this example setup, a  [Jinja2](https://palletsprojects.com/p/jinja/)  template `job-template.yaml` is used generate the 
+actual Job yaml file to be used in `kubectl`. The helper script `./create-job-yaml.py` is used to generate this file.
 
 ## The Test Results
 This is an example test run result from the IDE.
@@ -149,54 +201,6 @@ Global: percentage of successful requests is greater than 95.0 : true
 ```
 
 A more detailed test result in HTML can be found in `target/results`.
-
-## Running Test Using Gatling Maven Plugin
-
-The `gatling-test-maven` in `pom.xml` is configured behind a Maven profile `perf-test`. To run the tests, simply 
-enable the profile when running `mvn test` command.
-
-```
-mvn test -Pperf-test.
-```
-
-The plugin is configured to run `gatling.test.example.simulation.ExampleSimulation` by default.
-Simply override the property `simulationClass` to run a different simulation.
-
-```
-mvn test -Pperf-test -DsimulationClass=gatling.test.example.simulation.SomeOtherSimulation
-```
-
-The plugin can be configured to run all the simulations by setting the configuration property `runMultipleSimulations` 
-to `true`.
-
-## Running Test Using Executable Jar
-```
-mvn clean install
-java ${JAVA_OPTS} -cp target/gatling-test-example.jar io.gatling.app.Gatling -s gatling.test.example.simulation.ExampleSimulation
-```
-
-## Running Test Using Docker Container
-
-Create a Docker container (`make dist image`):
-```
-mvn clean package 
-docker build -t gatling-test-example .
-```
-
-Run the Docker container (`make run`):
-```
-docker run -e "JAVA_OPTS=-DbaseUrl=http://some-target-host:8080" -e SIMULATION_NAME=gatling.test.example.simulation.ExampleGetSimulation gatling-test-example:latest
-```
-This runs `ExampleGetSimulation` test against an HTTP server `some-target-host` running on port 8080.
-
-## Running Test as Kubernetes Job
-
-This assumes you have a basic knowledge of [Kubernetes](https://kubernetes.io/docs/tutorials/kubernetes-basics/)
-and a have access to a Kubernetes cluster. This usually means you have a properly configured `kubectl` config
-(`~/.kube/config`). Also ensure you have Python 3 installed. 
-
-In this example setup, a  [Jinja2](https://palletsprojects.com/p/jinja/)  template `job-template.yaml` is used generate the 
-actual Job yaml file to be used in `kubectl`. The helper script `./create-job-yaml.py` is used to generate this file.
 
 #### Install Python 3 dependencies
 ```
