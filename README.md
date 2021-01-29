@@ -157,7 +157,7 @@ This runs `ExampleGetSimulation` test against an HTTP server `some-target-host` 
 
 ## Running Test as Kubernetes Job
 
-This assumes you have a basic knowledge of [Kubernetes](https://kubernetes.io/docs/tutorials/kubernetes-basics/)
+This assumes you have a basic knowledge on [Kubernetes](https://kubernetes.io/docs/tutorials/kubernetes-basics/)
 and a have access to a Kubernetes cluster. This usually means you have a properly configured `kubectl` config
 (`~/.kube/config`). Also ensure you have Python 3 installed. 
 
