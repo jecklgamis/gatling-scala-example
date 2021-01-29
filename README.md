@@ -132,8 +132,7 @@ The plugin can be configured to run all the simulations by setting the configura
 to `true`.
 
 ## Running Test Using Executable Jar
-This is self contained executable jar file containing the Gatling runtime and the simulations. 
-After you develop your simulations, you would probably   
+This is a self contained executable jar file containing the Gatling runtime and the simulations.
 
 Once yo
 ```mvn clean install
