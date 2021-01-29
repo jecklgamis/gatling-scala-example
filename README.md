@@ -108,7 +108,7 @@ object PerfTestConfig {
 ## Running Test From IDE
 
 In the IDE, you can use the helper class `Engine.scala` to run a simulation. Running the `main` method will list
-will list down the simulations you can run. Simply follow the prompts.
+ down the simulations you can run. Simply follow the prompts.
 
 The `Engine.scala` and `IDEPathHelper.scala` classes were generated from the [Gatling Maven Archetype](http://gatling.io/docs/current/extensions/maven_archetype/).
 
