@@ -8,7 +8,7 @@ This example demonstrates a number of ways of running Gatling simulations:
 * Running from an executable jar file - this packages the Gatling runtime and simulations into a single jar file
 * Running using Docker - this uses the executable jar file to execute simulations inside a Docker container
 * Running as Kubernetes Job  - this uses the Docker image to run test inside a Kubernetes cluster
-* Running using Maven plugin - this is uses the Gatling Maven Plugin and runs directly from repo (note Gatling has 
+* Running using Maven plugin - this uses the Gatling Maven Plugin and runs directly from repo (note Gatling has 
 plugins for Gradle and SBT that might suit your use case)
 * Running inside IDE  - this uses a helper class `Engine.scala` to run simulations from IDE. Useful for crafting your
 simulations or  if your just getting started
@@ -98,10 +98,6 @@ class ExampleSimulation extends Simulation {
 
 The url, rate, duration, and asserted values are in `PerfTestConfig.scala`.
 
-TIP: The `Engine.scala` and `IDEPathHelper.scala` classes are generated from the Gatling Maven Archetype
-(http://gatling.io/docs/current/extensions/maven_archetype/).
-
-
 ```
 object PerfTestConfig {
   val baseUrl = getAsStringOrElse("baseUrl", "http://localhost:8080")
@@ -112,8 +108,12 @@ object PerfTestConfig {
 }
 ```
 
-## The Test Results
 
+TIP: The `Engine.scala` and `IDEPathHelper.scala` classes are generated from the Gatling Maven Archetype
+(http://gatling.io/docs/current/extensions/maven_archetype/).
+
+
+## The Test Results
 This is an example test run result from the IDE.
 
 ```
