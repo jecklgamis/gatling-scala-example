@@ -1,24 +1,26 @@
-# gatling-test-example 
+# gatling-test-example
 
 [![CircleCI](https://circleci.com/gh/jecklgamis/gatling-test-example.svg?style=svg)](https://circleci.com/gh/jecklgamis/gatling-test-example)
 
-This is an example test using [Gatling](https://gatling.io/). A minimal HTTP server is used as an example system under test.
+This is an example test using [Gatling](https://gatling.io/). A minimal HTTP server is used as an example system under
+test.
 
 This example demonstrates a number of ways of running simulations :
+
 * Running from an executable jar file - this packages the Gatling runtime and simulations into a single jar file
 * Running using Docker - this uses the executable jar file to execute simulations inside a Docker container
-* Running as Kubernetes Job  - this uses the Docker image to run test inside a Kubernetes cluster
-* Running using Maven plugin - this uses the Gatling Maven Plugin and runs directly from repo (note Gatling has 
-plugins for Gradle and SBT that might suit your use case)
-* Running inside IDE  - this uses a helper class `Engine.scala` to run simulations from IDE. This is useful for crafting 
-your simulations or if your just getting started
-* Running using the standalone distribution.  
+* Running as Kubernetes Job - this uses the Docker image to run test inside a Kubernetes cluster
+* Running using Maven plugin - this uses the Gatling Maven Plugin and runs directly from repo (note Gatling has plugins
+  for Gradle and SBT that might suit your use case)
+* Running inside IDE - this uses a helper class `Engine.scala` to run simulations from IDE. This is useful for crafting
+  your simulations or if your just getting started
+* Running using the standalone distribution.
 * See [gatling-server](https://github.com/jecklgamis/gatling-server) for running simulations using an API server
 
 ## Getting Started
 
-Start the example app on port 8080. The test app is a minimal HTTP server written in NodeJS. The
-server simply logs the request and  returns any request body it receives.
+Start the example app on port 8080. The test app is a minimal HTTP server written in NodeJS. The server simply logs the
+request and returns any request body it receives.
 
 Ensure you have NodeJS installed :
 ```
@@ -68,6 +70,7 @@ server.listen(port, function () {
 ```
 
 ## The Test Simulation
+
 ```
 import gatling.test.example.simulation.PerfTestConfig.{baseUrl, durationMin, maxResponseTimeMs, meanResponseTimeMs}
 import io.gatling.core.Predef.{StringBody, constantUsersPerSec, global, scenario, _}
@@ -94,7 +97,9 @@ class ExampleSimulation extends Simulation {
     )
 }
 ```
+
 The `PerfTestConfig.scala` contains the configurable values such as target url or duration.
+
 ```
 object PerfTestConfig {
   val baseUrl = getAsStringOrElse("baseUrl", "http://localhost:8080")
@@ -107,64 +112,98 @@ object PerfTestConfig {
 
 ## Running Test From IDE
 
-In the IDE, you can use the helper class `Engine.scala` to run a simulation. Running the `main` method will list
- down the simulations you can run. Simply follow the prompts.
+In the IDE, you can use the helper class `Engine.scala` to run a simulation. Running the `main` method will list down
+the simulations you can run. Simply follow the prompts.
 
-The `Engine.scala` and `IDEPathHelper.scala` classes were generated from the [Gatling Maven Archetype](http://gatling.io/docs/current/extensions/maven_archetype/).
+The `Engine.scala` and `IDEPathHelper.scala` classes were generated from
+the [Gatling Maven Archetype](http://gatling.io/docs/current/extensions/maven_archetype/).
 
 ## Running Test Using Gatling Maven Plugin
 
-The `gatling-test-maven` in `pom.xml` is configured behind a Maven profile `perf-test`. To run the tests, enable the 
+The `gatling-test-maven` in `pom.xml` is configured behind a Maven profile `perf-test`. To run the tests, enable the
 profile when running `mvn test` command.
 
 ```
 mvn test -Pperf-test
 ```
 
-The plugin is configured to run `gatling.test.example.simulation.ExampleSimulation` by default.
-Override the property `simulationClass` to run a different simulation.
+The plugin is configured to run `gatling.test.example.simulation.ExampleSimulation` by default. Override the
+property `simulationClass` to run a different simulation.
 
 ```
 mvn test -Pperf-test -DsimulationClass=gatling.test.example.simulation.SomeOtherSimulation
 ```
 
-The plugin can be configured to run all the simulations by setting the configuration property `runMultipleSimulations` 
+The plugin can be configured to run all the simulations by setting the configuration property `runMultipleSimulations`
 to `true`.
 
 ## Running Test Using Executable Jar
+
 This is a self contained executable jar file containing the Gatling runtime and the simulations.
 
 Once yo
+
 ```mvn clean install
 java -cp target/gatling-test-example.jar io.gatling.app.Gatling -s gatling.test.example.simulation.ExampleSimulation
 ```
 
 ## Running Test Using Docker Container
 
-Create a Docker container: 
+Create a Docker container:
+
 ```
 mvn clean package 
 docker build -t gatling-test-example .
 ```
+
 You alternatively run `make dist image`.
 
 Run the Docker container:
+
 ```
 docker run -e "JAVA_OPTS=-DbaseUrl=http://sloca:8080" \
      -e SIMULATION_NAME=gatling.test.example.simulation.ExampleGetSimulation gatling-test-example:latest
 ```
+
 This runs `ExampleGetSimulation` test against an HTTP server `some-target-host` running on port 8080.
+
+## Running Test Using The Standalone Distribution
+
+Download the Gatling distribution:
+
+```
+./download-gatling-distribution.sh
+```
+
+Copy simulations and resources to `user-files` dir:
+
+```
+cp -rf src/main/scala/ gatling-charts-highcharts-bundle-3.5.0/user-files/simulations
+cp -rf src/main/resources/* gatling-charts-highcharts-bundle-3.5.0/user-files/resources
+```
+
+Run gatling.sh:
+
+```
+gatling-charts-highcharts-bundle-3.5.0/bin/gatling.sh
+```
+Select the simulation and follow the prompts.
+
+Try [gatling-server](https://github.com/jecklgamis/gatling-server) for running simulations using an API server. 
+Simulations are executed using HTTP uploads.
 
 ## Running Test as Kubernetes Job
 
 This assumes you have a basic knowledge on [Kubernetes](https://kubernetes.io/docs/tutorials/kubernetes-basics/)
 and a have access to a Kubernetes cluster. This usually means you have a properly configured `kubectl` config
-(`~/.kube/config`). Also ensure you have Python 3 installed. 
+(`~/.kube/config`). Also ensure you have Python 3 installed.
 
-In this example setup, a  [Jinja2](https://palletsprojects.com/p/jinja/)  template `job-template.yaml` is used generate the 
-actual Job yaml file to be used in `kubectl`. The helper script `./create-job-yaml.py` is used to generate this file.
+In this example setup, a  [Jinja2](https://palletsprojects.com/p/jinja/)  template `job-template.yaml` is used generate
+the actual Job yaml file to be used in `kubectl`. The helper script `./create-job-yaml.py` is used to generate this
+file.
 
 ## The Test Results
+
 This is an example test run result from the IDE.
 
 ```
@@ -202,15 +241,17 @@ Global: percentage of successful requests is greater than 95.0 : true
 A more detailed test result in HTML can be found in `target/results`.
 
 #### Install Python 3 dependencies
+
 ```
 pip3 install jinja2 argparse
 ```
 
-Here is a demo run using the helper scripts in `deployment/k8s/job`. 
+Here is a demo run using the helper scripts in `deployment/k8s/job`.
 
 ![Kubernetes Job Demo](k8s-job-demo.gif)
 
 You should be able to replicate it in your local environment.
+
 ```shell script
 cd deployment/k8s/job
 ./demo-run-in-k8s.sh
@@ -218,13 +259,15 @@ cd deployment/k8s/job
 
 For a step by step procedure, read on.
 
-1.  Generate `job.yaml` from `job-template.yaml`
+1. Generate `job.yaml` from `job-template.yaml`
+
 ```
 cd deployment/k8s/job
 ./create-job-yaml.py --out job.yaml --name gatling-test-example --java_opts "-DbaseUrl=http://some-target-host:8080 -DdurationMin=0.25 -DrequestPerSecond=10" --simulation "gatling.test.example.simulation.ExampleGetSimulation"
 ```
 
 `job-template.yaml` template file.
+
 ```
 apiVersion: batch/v1
 kind: Job
@@ -246,41 +289,52 @@ spec:
       restartPolicy: Never
 ```
 
-2. Create Job 
+2. Create Job
+
 ```shell script
 kubectl apply -f job.yaml
 ```
+
 Example output:
+
 ```shell script
 job.batch/gatling-test-example created
 ```
 
-3. View Job 
+3. View Job
+
 ```shell script
 kubectl get jobs/gatling-test-example -o wide
 ```
+
 Example output:
+
 ```shell script
 NAME                   COMPLETIONS   DURATION   AGE   CONTAINERS             IMAGES                            SELECTOR
 gatling-test-example   1/1           24s        25s   gatling-test-example   jecklgamis/gatling-test-example   controller-uid=2f37ee78-09b9-4aa9-90ac-872db13522b6
 ```
 
 4. View Pods
+
 ```shell script
 kubectl get pods -l job-name=gatling-test-example -o wide
 ```
+
 Example output:
+
 ```shell script
 NAME                         READY   STATUS      RESTARTS   AGE   IP             NODE      NOMINATED NODE   READINESS GATES
 gatling-test-example-2mz4s   0/1     Completed   0          56s   10.244.0.237   okinawa   <none>           <none>
 ```
 
 5. Get Pod Logs
+
 ```shell script
 kubectl logs <pod-name>
 ```
 
 6. Delete Job
+
 ```shell script
 kubectl delete -f job.yaml
 ```
@@ -289,31 +343,35 @@ kubectl delete -f job.yaml
 
 The scripts below can be found in `deployment/k8s/job` directory.
 
-* [create-job.sh](deployment/k8s/job/create-job.sh) 
-* [describe-job.sh](deployment/k8s/job/describe-job.sh) 
+* [create-job.sh](deployment/k8s/job/create-job.sh)
+* [describe-job.sh](deployment/k8s/job/describe-job.sh)
 * [describe-pod.sh](deployment/k8s/job/describe-pod.sh)
-* [wait-job.sh](deployment/k8s/job/wait-job.sh) 
-* [delete-job.sh](deployment/k8s/job/delete-job.sh) 
+* [wait-job.sh](deployment/k8s/job/wait-job.sh)
+* [delete-job.sh](deployment/k8s/job/delete-job.sh)
 
 ## Example Target Apps
 
 Some example apps.
 
 Dropwizard Apps:
+
 * https://github.com/jecklgamis/dropwizard-java-example
 * https://github.com/jecklgamis/dropwizard-kotlin-example
 * https://github.com/jecklgamis/dropwizard-scala-example
 
 Spring Boot Apps:
+
 * https://github.com/jecklgamis/spring-boot-java-example
 * https://github.com/jecklgamis/spring-boot-kotlin-example
 * https://github.com/jecklgamis/spring-boot-scala-example
 
 Flask App:
+
 * https://github.com/jecklgamis/flask-example-app
-  
+
 ## Links
-* Gatling: http://gatling.io  
+
+* Gatling: http://gatling.io
 * Scala: http://scala-lang.org
 
 
