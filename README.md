@@ -141,8 +141,6 @@ to `true`.
 
 This is a self contained executable jar file containing the Gatling runtime and the simulations.
 
-Once yo
-
 ```mvn clean install
 java -cp target/gatling-test-example.jar io.gatling.app.Gatling -s gatling.test.example.simulation.ExampleSimulation
 ```
