@@ -3,7 +3,7 @@ IMAGE_TAG:=latest
 
 default:
 	cat ./Makefile
-dist: 
+dist:
 	./mvnw clean package
 image:
 	 docker build -t $(IMAGE_NAME):$(IMAGE_TAG) .
@@ -14,4 +14,6 @@ run:
  -e SIMULATION_NAME=gatling.test.example.simulation.ExampleGetSimulation $(IMAGE_NAME):$(IMAGE_TAG)
 push:
 	docker push $(IMAGE_NAME):$(IMAGE_TAG)
+all: dist image
+
 

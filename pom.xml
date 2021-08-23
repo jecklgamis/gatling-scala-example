@@ -8,11 +8,11 @@
     <groupId>com.jecklgamis</groupId>
     <artifactId>gatling-test-example</artifactId>
     <name>gatling-test-example</name>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
-        <gatling.version>3.6.0</gatling.version>
+        <gatling.version>3.6.1</gatling.version>
         <scala.version>2.13.6</scala.version>
         <simulationClass>gatling.test.example.simulation.ExampleSimulation</simulationClass>
     </properties>

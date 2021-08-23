@@ -13,14 +13,17 @@ This example demonstrates a number of ways of running simulations :
 * Running using Maven plugin - this uses the Gatling Maven Plugin and runs directly from repo (note Gatling has plugins
   for Gradle and SBT that might suit your use case)
 * Running inside IDE - this uses a helper class `Engine.scala` to run simulations from IDE. This is useful for crafting
-  your simulations or if your just getting started
+  your simulations or if you are just getting started
 * Running using the standalone distribution.
 * See [gatling-server](https://github.com/jecklgamis/gatling-server) for running simulations using an API server
+
+This is a **Github Template** project. You can create a copy of this project from a clean slate. Simply click
+<kbd>Use this template</kbd> button.
 
 ## Getting Started
 
 Start the example app on port 8080. The test app is a minimal HTTP server written in NodeJS. The server simply logs the
-request and returns any request body it receives.
+request and returns any request body or query params it receives.
 
 Ensure you have NodeJS installed :
 ```
@@ -98,7 +101,7 @@ class ExampleSimulation extends Simulation {
 }
 ```
 
-The `PerfTestConfig.scala` contains the configurable values such as target url or duration.
+The `PerfTestConfig.scala` contains the configurable values such as target url or duration. 
 
 ```
 object PerfTestConfig {
@@ -159,7 +162,7 @@ You alternatively run `make dist image`.
 Run the Docker container:
 
 ```
-docker run -e "JAVA_OPTS=-DbaseUrl=http://sloca:8080" \
+docker run -e "JAVA_OPTS=-DbaseUrl=http://localhost:8080" \
      -e SIMULATION_NAME=gatling.test.example.simulation.ExampleGetSimulation gatling-test-example:latest
 ```
 

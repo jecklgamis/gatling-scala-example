@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -ex
 
-JAVA_OPTS="-DbaseUrl=http://172.16.0.50:8080 -DdurationMin=0.25 -DrequestPerSecond=10"
+JAVA_OPTS="-DbaseUrl=http://localhost:8080 -DdurationMin=0.25 -DrequestPerSecond=10"
 SIMULATION_NAME="gatling.test.example.simulation.ExampleGetSimulation"
 
 id=$(uuidgen | cut -c1-8 | awk '{print tolower($0)}')

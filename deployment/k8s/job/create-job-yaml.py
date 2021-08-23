@@ -23,7 +23,7 @@ def parse_args():
                         default=f"gatling-test-example-{id}",
                         help='Job name')
     parser.add_argument('--java_opts',
-                        default='-Dbaseurl=http://localhost:8080 -DrequestPerSecond=10 -DdurationMin=0.25',
+                        default='-DbaseUrl=http://localhost:8080 -DrequestPerSecond=10 -DdurationMin=0.25',
                         help='Java opts')
     parser.add_argument('--simulation',
                         default="gatling.test.example.simulation.ExampleGetSimulation",
