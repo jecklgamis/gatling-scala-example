@@ -2,5 +2,5 @@
 
 [![Build](https://github.com/%REPOSITORY%/actions/workflows/build.yml/badge.svg)](https://github.com/%REPOSITORY%/actions/workflows/build.yml)
 
-This Maven project was generated from [gatling-test-example](https://github.com/jecklgamis/gatling-test-example).
+This project was generated from [gatling-test-example](https://github.com/jecklgamis/gatling-test-example).
 
