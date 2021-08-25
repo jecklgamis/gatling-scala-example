@@ -1,6 +1,6 @@
 # gatling-test-example
 
-[![CircleCI](https://circleci.com/gh/jecklgamis/gatling-test-example.svg?style=svg)](https://circleci.com/gh/jecklgamis/gatling-test-example)
+[![Build](https://github.com/jecklgamis/gatling-test-example/actions/workflows/build.yml/badge.svg)](https://github.com/jecklgamis/gatling-test-example/actions/workflows/build.yml)
 
 This is an example test using [Gatling](https://gatling.io/). A minimal HTTP server is used as an example system under
 test.
