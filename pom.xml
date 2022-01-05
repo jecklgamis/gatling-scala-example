@@ -12,9 +12,11 @@
     <packaging>jar</packaging>
 
     <properties>
-        <gatling.version>3.6.1</gatling.version>
-        <scala.version>2.13.6</scala.version>
+        <gatling.version>3.7.3</gatling.version>
+        <scala.version>2.13.7</scala.version>
         <simulationClass>gatling.test.example.simulation.ExampleSimulation</simulationClass>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -136,7 +138,7 @@
                     <plugin>
                         <groupId>io.gatling</groupId>
                         <artifactId>gatling-maven-plugin</artifactId>
-                        <version>3.0.0</version>
+                        <version>4.0.1</version>
                         <configuration>
                             <simulationsFolder>src/main/scala</simulationsFolder>
                             <runMultipleSimulations>false</runMultipleSimulations>

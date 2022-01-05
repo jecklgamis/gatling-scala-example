@@ -11,7 +11,6 @@ object Engine {
     props.resourcesDirectory(IDEPathHelper.dataDirectory.toString)
     props.resultsDirectory(IDEPathHelper.resultsDirectory.toString)
     props.binariesDirectory(IDEPathHelper.mavenBinariesDirectory.toString)
-    props.simulationsDirectory(IDEPathHelper.mavenSourcesDirectory.toString)
     Gatling.fromMap(props.build)
   }
 
