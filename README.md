@@ -24,8 +24,8 @@ This is a **Github Template** project. You can create a copy of this project fro
 
 Gatling now supports Java and Kotlin DSLs. Here are some example Maven projects.
 
-* [gatling-kotlin-example] (https://github.com/jecklgamis/gatling-kotlin-example)
-* [gatling-java-example] (https://github.com/jecklgamis/gatling--example)
+* [gatling-kotlin-example](https://github.com/jecklgamis/gatling-kotlin-example)
+* [gatling-java-example](https://github.com/jecklgamis/gatling--example)
 
 ## Getting Started
 
