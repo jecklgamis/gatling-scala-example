@@ -20,6 +20,13 @@ This example demonstrates a number of ways of running simulations :
 This is a **Github Template** project. You can create a copy of this project from a clean slate. Simply click
 <kbd>Use this template</kbd> button.
 
+## Java and Kotlin DSL
+
+Gatling now supports Java and Kotlin DSLs. Here are some example Maven projects.
+
+* [gatling-kotlin-example] (https://github.com/jecklgamis/gatling-kotlin-example)
+* [gatling-java-example] (https://github.com/jecklgamis/gatling--example)
+
 ## Getting Started
 
 Start the example app on port 8080. The test app is a minimal HTTP server written in NodeJS. The server simply logs the
