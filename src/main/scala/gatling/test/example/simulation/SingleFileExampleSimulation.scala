@@ -21,8 +21,9 @@ class SingleFileExampleSimulation extends Simulation {
     constantUsersPerSec(requestPerSecond) during (durationMin minutes))
     .protocols(httpConf))
     .assertions(
-      global.responseTime.max.lt(maxResponseTimeMs),
+      global.responseTime.max.lt(meanResponseTimeMs),
       global.responseTime.mean.lt(meanResponseTimeMs),
+      global.responseTime.percentile3.lt(p95ResponseTimeMs),
       global.successfulRequests.percent.gt(95)
     )
 
@@ -33,6 +34,8 @@ class SingleFileExampleSimulation extends Simulation {
     val durationMin = getAsDoubleOrElse("durationMin", 1.0)
     val meanResponseTimeMs = getAsIntOrElse("meanResponseTimeMs", 500)
     val maxResponseTimeMs = getAsIntOrElse("maxResponseTimeMs", 1000)
+    val p95ResponseTimeMs = getAsIntOrElse("p95ResponseTime", 250)
+
 
     def getAsIntOrElse(property: String, default: Int): Int = sysProps.getOrElse(property, default).toString.toInt
 

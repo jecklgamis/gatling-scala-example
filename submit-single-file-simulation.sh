@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -ex
 curl -v \
   -F 'file=@src/main/scala/gatling/test/example/simulation/SingleFileExampleSimulation.scala' \
   -F "simulation=gatling.test.example.simulation.SingleFileExampleSimulation" \

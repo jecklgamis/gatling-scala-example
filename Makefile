@@ -16,4 +16,3 @@ push:
 	docker push $(IMAGE_NAME):$(IMAGE_TAG)
 all: dist image
 
-

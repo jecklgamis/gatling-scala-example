@@ -13,49 +13,20 @@
 
     <properties>
         <gatling.version>3.7.3</gatling.version>
-        <scala.version>2.13.7</scala.version>
-        <simulationClass>gatling.test.example.simulation.ExampleSimulation</simulationClass>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-library</artifactId>
-            <version>${scala.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.gatling</groupId>
-            <artifactId>gatling-core</artifactId>
-            <version>${gatling.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.gatling</groupId>
-            <artifactId>gatling-http</artifactId>
-            <version>${gatling.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.gatling</groupId>
-            <artifactId>gatling-charts</artifactId>
-            <scope>runtime</scope>
-            <version>${gatling.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.gatling</groupId>
-            <artifactId>gatling-metrics</artifactId>
-            <version>2.3.1</version>
-        </dependency>
-        <dependency>
             <groupId>io.gatling.highcharts</groupId>
             <artifactId>gatling-charts-highcharts</artifactId>
-            <scope>runtime</scope>
             <version>${gatling.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.gatling</groupId>
-            <artifactId>gatling-app</artifactId>
-            <version>${gatling.version}</version>
+            <groupId>org.json4s</groupId>
+            <artifactId>json4s-native_2.13</artifactId>
+            <version>4.0.3</version>
         </dependency>
     </dependencies>
 
@@ -94,10 +65,9 @@
                 <configuration>
                     <jvmArgs>
                         <jvmArg>-Xms512m</jvmArg>
-                        <jvmArg>-Xmx2048m</jvmArg>
+                        <jvmArg>-Xmx1024m</jvmArg>
                     </jvmArgs>
                     <recompileMode>incremental</recompileMode>
-                    <useZincServer>true</useZincServer>
                 </configuration>
             </plugin>
             <plugin>
@@ -125,38 +95,45 @@
                             <goal>shade</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>lean-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>${project.name}-lean</finalName>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>gatling</exclude>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                            <artifactSet>
+                                <includes>
+                                    <include>org.json4s:*</include>
+                                </includes>
+                            </artifactSet>
+                        </configuration>
+                    </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>io.gatling</groupId>
+                <artifactId>gatling-maven-plugin</artifactId>
+                <version>4.1.0</version>
+                <configuration>
+                    <simulationsFolder>src/main/scala</simulationsFolder>
+                    <runMultipleSimulations>false</runMultipleSimulations>
+                    <simulationClass>gatling.test.example.simulation.ExampleSimulation</simulationClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>perf-test</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>io.gatling</groupId>
-                        <artifactId>gatling-maven-plugin</artifactId>
-                        <version>4.0.1</version>
-                        <configuration>
-                            <simulationsFolder>src/main/scala</simulationsFolder>
-                            <runMultipleSimulations>false</runMultipleSimulations>
-                            <simulationClass>${simulationClass}</simulationClass>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>run-on-test</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>test</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
 </project>
