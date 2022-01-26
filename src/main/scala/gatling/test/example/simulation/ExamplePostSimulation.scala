@@ -24,8 +24,8 @@ class ExamplePostSimulation extends Simulation {
     constantUsersPerSec(requestPerSecond) during (durationMin minutes))
     .protocols(httpConf))
     .assertions(
-      global.responseTime.max.lt(meanResponseTimeMs),
-      global.responseTime.mean.lt(maxResponseTimeMs),
+      global.responseTime.max.lt(maxResponseTimeMs),
+      global.responseTime.mean.lt(meanResponseTimeMs),
       global.responseTime.percentile3.lt(p95ResponseTimeMs),
       global.successfulRequests.percent.gt(95)
     )
