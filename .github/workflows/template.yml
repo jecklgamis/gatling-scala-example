@@ -33,6 +33,10 @@ jobs:
           sed -i "s/%REPOSITORY%/${GITHUB_REPOSITORY/\//\\/}/g" .github/template-files/*
           sed -i "s/%GROUP%/${GROUP}/g" .github/template-files/*
 
+          # Replace names in the workflow files
+          sed -i "s/jecklgamis/${ACTOR}/g" .github/workflows/*
+          sed -i "s/gatling-test-example/${NAME}/g" .github/workflows/*
+
           # Update package references in sources
           find src -type f -exec sed -i "s/gatling.test.example/${GROUP}/g" {} +
 
