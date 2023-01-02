@@ -12,7 +12,6 @@
     <packaging>jar</packaging>
 
     <properties>
-        <gatling.version>3.8.4</gatling.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
@@ -21,7 +20,7 @@
         <dependency>
             <groupId>io.gatling.highcharts</groupId>
             <artifactId>gatling-charts-highcharts</artifactId>
-            <version>${gatling.version}</version>
+            <version>3.9.0</version>
         </dependency>
         <dependency>
             <groupId>org.json4s</groupId>
@@ -44,7 +43,7 @@
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
-                <version>4.4.1</version>
+                <version>4.8.0</version>
                 <executions>
                     <execution>
                         <id>scala-compile-first</id>
@@ -73,7 +72,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
+                <version>3.4.1</version>
                 <configuration>
                     <finalName>${project.name}</finalName>
                     <createDependencyReducedPom>true</createDependencyReducedPom>
@@ -126,7 +125,7 @@
             <plugin>
                 <groupId>io.gatling</groupId>
                 <artifactId>gatling-maven-plugin</artifactId>
-                <version>4.1.0</version>
+                <version>4.2.9</version>
                 <configuration>
                     <simulationsFolder>src/main/scala</simulationsFolder>
                     <runMultipleSimulations>false</runMultipleSimulations>

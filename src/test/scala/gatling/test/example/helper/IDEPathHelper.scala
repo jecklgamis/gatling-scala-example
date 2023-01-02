@@ -2,21 +2,16 @@ package gatling.test.example.helper
 
 import java.nio.file.Paths
 
-import io.gatling.commons.shared.unstable.util.PathHelper._
 
 object IDEPathHelper {
   val gatlingConfUrl = Paths.get(getClass.getClassLoader.getResource("gatling.conf").toURI)
-  val projectRootDir = gatlingConfUrl.ancestor(3)
+  val projectRootDir = gatlingConfUrl.getParent.getParent.getParent
 
-  val mavenSourcesDirectory = projectRootDir / "src" / "main" / "scala"
-  val mavenResourcesDirectory = projectRootDir / "src" / "main" / "resources"
-  val mavenTargetDirectory = projectRootDir / "target"
-  val mavenBinariesDirectory = mavenTargetDirectory / "classes"
+  val mavenSourcesDirectory = projectRootDir.resolve("src").resolve("main").resolve("scala")
+  val mavenResourcesDirectory = mavenSourcesDirectory.resolve("resources")
 
-  val dataDirectory = mavenResourcesDirectory / "data"
-  val bodiesDirectory = mavenResourcesDirectory / "bodies"
-
-  val recorderOutputDirectory = mavenSourcesDirectory
-  val resultsDirectory = mavenTargetDirectory / "results"
+  val mavenTargetDirectory = projectRootDir.resolve("target")
+  val mavenBinariesDirectory = mavenTargetDirectory.resolve("classes")
+  val resultsDirectory = mavenTargetDirectory.resolve("gatling")
 
 }
