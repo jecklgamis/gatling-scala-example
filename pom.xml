@@ -20,12 +20,7 @@
         <dependency>
             <groupId>io.gatling.highcharts</groupId>
             <artifactId>gatling-charts-highcharts</artifactId>
-            <version>3.9.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.json4s</groupId>
-            <artifactId>json4s-native_2.13</artifactId>
-            <version>4.1.0-M2</version>
+            <version>3.9.3</version>
         </dependency>
     </dependencies>
 
