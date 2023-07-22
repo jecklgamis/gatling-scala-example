@@ -7,8 +7,8 @@ spec:
   template:
     spec:
       containers:
-        - name: gatling-test-example
-          image: jecklgamis/gatling-test-example
+        - name: gatling-scala-example
+          image: jecklgamis/gatling-scala-example
           imagePullPolicy: Always
           env:
             - name: JAVA_OPTS

@@ -1,6 +1,6 @@
-# gatling-test-example
+# gatling-scala-example
 
-[![Build](https://github.com/jecklgamis/gatling-test-example/actions/workflows/build.yml/badge.svg)](https://github.com/jecklgamis/gatling-test-example/actions/workflows/build.yml)
+[![Build](https://github.com/jecklgamis/gatling-scala-example/actions/workflows/build.yml/badge.svg)](https://github.com/jecklgamis/gatling-scala-example/actions/workflows/build.yml)
 
 This is an example test using [Gatling](https://gatling.io/). A minimal HTTP server is used as an example system under
 test.
@@ -152,7 +152,7 @@ to `true`.
 This is a self contained executable jar file containing the Gatling runtime and the simulations.
 
 ```mvn clean install
-java -cp target/gatling-test-example.jar io.gatling.app.Gatling -s gatling.test.example.simulation.ExampleSimulation
+java -cp target/gatling-scala-example.jar io.gatling.app.Gatling -s gatling.test.example.simulation.ExampleSimulation
 ```
 
 ## Running Test Using Docker Container
@@ -161,7 +161,7 @@ Create a Docker container:
 
 ```
 mvn clean package 
-docker build -t gatling-test-example .
+docker build -t gatling-scala-example .
 ```
 
 You alternatively run `make dist image`.
@@ -170,7 +170,7 @@ Run the Docker container:
 
 ```
 docker run -e "JAVA_OPTS=-DbaseUrl=http://localhost:8080" \
-     -e SIMULATION_NAME=gatling.test.example.simulation.ExampleGetSimulation gatling-test-example:latest
+     -e SIMULATION_NAME=gatling.test.example.simulation.ExampleGetSimulation gatling-scala-example:latest
 ```
 
 This runs `ExampleGetSimulation` test against an HTTP server `some-target-host` running on port 8080.
@@ -271,7 +271,7 @@ For a step by step procedure, read on.
 
 ```
 cd deployment/k8s/job
-./create-job-yaml.py --out job.yaml --name gatling-test-example --java_opts "-DbaseUrl=http://some-target-host:8080 -DdurationMin=0.25 -DrequestPerSecond=10" --simulation "gatling.test.example.simulation.ExampleGetSimulation"
+./create-job-yaml.py --out job.yaml --name gatling-scala-example --java_opts "-DbaseUrl=http://some-target-host:8080 -DdurationMin=0.25 -DrequestPerSecond=10" --simulation "gatling.test.example.simulation.ExampleGetSimulation"
 ```
 
 `job-template.yaml` template file.
@@ -286,8 +286,8 @@ spec:
   template:
     spec:
       containers:
-        - name: gatling-test-example
-          image: jecklgamis/gatling-test-example
+        - name: gatling-scala-example
+          image: jecklgamis/gatling-scala-example
           imagePullPolicy: Always
           env:
             - name: JAVA_OPTS
@@ -306,33 +306,33 @@ kubectl apply -f job.yaml
 Example output:
 
 ```shell script
-job.batch/gatling-test-example created
+job.batch/gatling-scala-example created
 ```
 
 3. View Job
 
 ```shell script
-kubectl get jobs/gatling-test-example -o wide
+kubectl get jobs/gatling-scala-example -o wide
 ```
 
 Example output:
 
 ```shell script
 NAME                   COMPLETIONS   DURATION   AGE   CONTAINERS             IMAGES                            SELECTOR
-gatling-test-example   1/1           24s        25s   gatling-test-example   jecklgamis/gatling-test-example   controller-uid=2f37ee78-09b9-4aa9-90ac-872db13522b6
+gatling-scala-example   1/1           24s        25s   gatling-scala-example   jecklgamis/gatling-scala-example   controller-uid=2f37ee78-09b9-4aa9-90ac-872db13522b6
 ```
 
 4. View Pods
 
 ```shell script
-kubectl get pods -l job-name=gatling-test-example -o wide
+kubectl get pods -l job-name=gatling-scala-example -o wide
 ```
 
 Example output:
 
 ```shell script
 NAME                         READY   STATUS      RESTARTS   AGE   IP             NODE      NOMINATED NODE   READINESS GATES
-gatling-test-example-2mz4s   0/1     Completed   0          56s   10.244.0.237   okinawa   <none>           <none>
+gatling-scala-example-2mz4s   0/1     Completed   0          56s   10.244.0.237   okinawa   <none>           <none>
 ```
 
 5. Get Pod Logs

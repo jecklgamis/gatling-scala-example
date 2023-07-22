@@ -6,7 +6,7 @@ RUN apk update && apk add bash curl
 ENV APP_HOME /app
 RUN mkdir -m 0755 -p ${APP_HOME}/bin
 
-COPY target/gatling-test-example.jar ${APP_HOME}/bin/
+COPY target/gatling-scala-example.jar ${APP_HOME}/bin/
 COPY docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
 

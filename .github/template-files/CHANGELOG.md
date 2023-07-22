@@ -4,4 +4,4 @@
 
 ### Added
 
-- Initial project from [gatling-test-example](https://github.com/jecklgamis/gatling-test-example)
+- Initial project from [gatling-scala-example](https://github.com/jecklgamis/gatling-scala-example)

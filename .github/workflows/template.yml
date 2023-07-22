@@ -7,7 +7,7 @@ jobs:
   prepare:
     name: Prepare
     runs-on: ubuntu-latest
-    if: github.event.repository.name != 'gatling-test-example'
+    if: github.event.repository.name != 'gatling-scala-example'
     steps:
       - name: Fetch Sources
         uses: actions/checkout@v2.3.4
@@ -35,33 +35,33 @@ jobs:
 
           # Replace names in the workflow files
           sed -i "s/jecklgamis/${ACTOR}/g" .github/workflows/*
-          sed -i "s/gatling-test-example/${NAME}/g" .github/workflows/*
+          sed -i "s/gatling-scala-example/${NAME}/g" .github/workflows/*
 
           # Update package references in sources
           find src -type f -exec sed -i "s/gatling.test.example/${GROUP}/g" {} +
 
           # Update K8s deployment files
-          find deployment -type f -exec sed -i "s/gatling-test-example/${NAME}/g" {} +
+          find deployment -type f -exec sed -i "s/gatling-scala-example/${NAME}/g" {} +
           find deployment -type f -exec sed -i "s/gatling.test.example/${GROUP}/g" {} +
           find deployment -type f -exec sed -i "s/jecklgamis/${ACTOR}/g" {} +
 
           # Update shell scripts
-          find . -name "*.sh" -type f -exec sed -i "s/gatling-test-example/${NAME}/g" {} +
+          find . -name "*.sh" -type f -exec sed -i "s/gatling-scala-example/${NAME}/g" {} +
           find . -name "*.sh" -type f -exec sed -i "s/gatling.test.example/${GROUP}/g" {} +
           find . -name "*.sh" -type f -exec sed -i "s/jecklgamis/${ACTOR}/g" {} +
 
           # Update Makefile
-          find . -name Makefile -type f -exec sed -i "s/gatling-test-example/${NAME}/g" {} +
+          find . -name Makefile -type f -exec sed -i "s/gatling-scala-example/${NAME}/g" {} +
           find . -name Makefile -type f -exec sed -i "s/gatling.test.example/${GROUP}/g" {} +
           find . -name Makefile -type f -exec sed -i "s/jecklgamis/${ACTOR}/g" {} +
 
           # Update pom.xml
-          find . -name pom.xml -type f -exec sed -i "s/gatling-test-example/${NAME}/g" {} +
+          find . -name pom.xml -type f -exec sed -i "s/gatling-scala-example/${NAME}/g" {} +
           find . -name pom.xml -type f -exec sed -i "s/gatling.test.example/${GROUP}/g" {} +
           find . -name pom.xml -type f -exec sed -i "s/com.jecklgamis/${GROUP}/g" {} +
 
           # Update Dockerfile
-          find . -name Dockerfile -type f -exec sed -i "s/gatling-test-example/${NAME}/g" {} +
+          find . -name Dockerfile -type f -exec sed -i "s/gatling-scala-example/${NAME}/g" {} +
           find . -name Dockerfile -type f -exec sed -i "s/Jerrico Gamis/FirstName LastName/g" {} +
           find . -name Dockerfile -type f -exec sed -i "s/jecklgamis@gmail.com/user@some-domain/g" {} +
 

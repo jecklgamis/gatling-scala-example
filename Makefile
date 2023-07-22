@@ -1,4 +1,4 @@
-IMAGE_NAME:=jecklgamis/gatling-test-example
+IMAGE_NAME:=jecklgamis/gatling-scala-example
 IMAGE_TAG:=latest
 
 default:

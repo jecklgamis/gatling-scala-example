@@ -20,7 +20,7 @@ def parse_args():
                         default=f"job.yaml",
                         help='Job filename')
     parser.add_argument('--name',
-                        default=f"gatling-test-example-{id}",
+                        default=f"gatling-scala-example-{id}",
                         help='Job name')
     parser.add_argument('--java_opts',
                         default='-DbaseUrl=http://localhost:8080 -DrequestPerSecond=10 -DdurationMin=0.25',

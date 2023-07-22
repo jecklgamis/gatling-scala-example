@@ -5,7 +5,7 @@
 
 CURRENT_DIR=$(pwd)
 
-NAME=gatling-test-example
+NAME=gatling-scala-example
 USER_FILES_DIR=${NAME}-user-files
 TAR_GZ_FILE=${USER_FILES_DIR}.tar.gz
 

@@ -6,8 +6,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.jecklgamis</groupId>
-    <artifactId>gatling-test-example</artifactId>
-    <name>gatling-test-example</name>
+    <artifactId>gatling-scala-example</artifactId>
+    <name>gatling-scala-example</name>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -20,7 +20,7 @@
         <dependency>
             <groupId>io.gatling.highcharts</groupId>
             <artifactId>gatling-charts-highcharts</artifactId>
-            <version>3.9.3</version>
+            <version>3.9.5</version>
         </dependency>
     </dependencies>
 
