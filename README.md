@@ -12,13 +12,14 @@ This example demonstrates a number of ways of running simulations :
 * Running as Kubernetes Job - this uses the Docker image to run test inside a Kubernetes cluster
 * Running using Maven plugin - this uses the Gatling Maven Plugin and runs directly from repo (note Gatling has plugins
   for Gradle and SBT that might suit your use case)
-* Running inside IDE - this uses a helper class `Engine.scala` to run simulations from IDE. This is useful for crafting
-  your simulations or if you are just getting started
 * Running using the standalone distribution.
 * See [gatling-server](https://github.com/jecklgamis/gatling-server) for running simulations using an API server
 
 This is a **Github Template** project. You can create a copy of this project from a clean slate. Simply click
 <kbd>Use this template</kbd> button.
+
+## Requirements 
+* JDK 21
 
 ## Java and Kotlin DSL
 
@@ -119,14 +120,6 @@ object PerfTestConfig {
   val maxResponseTimeMs = getAsIntOrElse("maxResponseTimeMs", 1000)
 }
 ```
-
-## Running Test From IDE
-
-In the IDE, you can use the helper class `Engine.scala` to run a simulation. Running the `main` method will list down
-the simulations you can run. Simply follow the prompts.
-
-The `Engine.scala` and `IDEPathHelper.scala` classes were generated from
-the [Gatling Maven Archetype](http://gatling.io/docs/current/extensions/maven_archetype/).
 
 ## Running Test Using Gatling Maven Plugin
 
