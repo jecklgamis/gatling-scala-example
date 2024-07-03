@@ -12,7 +12,6 @@ This example demonstrates a number of ways of running simulations :
 * Running as Kubernetes Job - this uses the Docker image to run test inside a Kubernetes cluster
 * Running using Maven plugin - this uses the Gatling Maven Plugin and runs directly from repo (note Gatling has plugins
   for Gradle and SBT that might suit your use case)
-* Running using the standalone distribution.
 * See [gatling-server](https://github.com/jecklgamis/gatling-server) for running simulations using an API server
 
 This is a **Github Template** project. You can create a copy of this project from a clean slate. Simply click
@@ -167,31 +166,6 @@ docker run -e "JAVA_OPTS=-DbaseUrl=http://localhost:8080" \
 ```
 
 This runs `ExampleGetSimulation` test against an HTTP server `some-target-host` running on port 8080.
-
-## Running Test Using The Standalone Distribution
-
-Download the Gatling distribution:
-
-```
-./download-gatling-distribution.sh
-```
-
-Copy simulations and resources to `user-files` dir:
-
-```
-cp -rf src/main/scala/ gatling-charts-highcharts-bundle-3.5.0/user-files/simulations
-cp -rf src/main/resources/* gatling-charts-highcharts-bundle-3.5.0/user-files/resources
-```
-
-Run gatling.sh:
-
-```
-gatling-charts-highcharts-bundle-3.5.0/bin/gatling.sh
-```
-Select the simulation and follow the prompts.
-
-Try [gatling-server](https://github.com/jecklgamis/gatling-server) for running simulations using an API server. 
-Simulations are executed using HTTP uploads.
 
 ## Running Test as Kubernetes Job
 
