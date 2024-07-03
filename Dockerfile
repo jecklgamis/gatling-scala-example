@@ -1,7 +1,5 @@
-FROM openjdk:8-jre-alpine
+FROM eclipse-temurin:21-jammy
 MAINTAINER Jerrico Gamis <jecklgamis@gmail.com>
-
-RUN apk update && apk add bash curl
 
 ENV APP_HOME /app
 RUN mkdir -m 0755 -p ${APP_HOME}/bin
@@ -10,7 +8,7 @@ COPY target/gatling-scala-example.jar ${APP_HOME}/bin/
 COPY docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
 
-RUN addgroup -S gatling && adduser -S gatling -G gatling
+RUN groupadd -r gatling && useradd -r -ggatling gatling
 RUN chown -R gatling:gatling ${APP_HOME}
 RUN chown gatling:gatling /docker-entrypoint.sh
 

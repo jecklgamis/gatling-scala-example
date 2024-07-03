@@ -2,17 +2,17 @@ name: Build
 on:
   push:
     branches: [ main ]
-    pull_request:
+  pull_request:
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
         uses: actions/checkout@v3
-      - name: Set up JDK 8
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: '8'
+          java-version: '21'
           distribution: 'temurin'
       - name: Cache Maven packages
         uses: actions/cache@v3
