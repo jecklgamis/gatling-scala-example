@@ -165,7 +165,7 @@ docker run -e "JAVA_OPTS=-DbaseUrl=http://localhost:8080" \
      -e SIMULATION_NAME=gatling.test.example.simulation.ExampleGetSimulation gatling-scala-example:latest
 ```
 
-This runs `ExampleGetSimulation` test against an HTTP server `some-target-host` running on port 8080.
+This runs `ExampleGetSimulation` test against an HTTP server `localhost` running on port 8080.
 
 ## Running Test as Kubernetes Job
 
@@ -238,7 +238,7 @@ For a step by step procedure, read on.
 
 ```
 cd deployment/k8s/job
-./create-job-yaml.py --out job.yaml --name gatling-scala-example --java_opts "-DbaseUrl=http://some-target-host:8080 -DdurationMin=0.25 -DrequestPerSecond=10" --simulation "gatling.test.example.simulation.ExampleGetSimulation"
+./create-job-yaml.py --out job.yaml --name gatling-scala-example --java_opts "-DbaseUrl=http://localhost:8080 -DdurationMin=0.25 -DrequestPerSecond=10" --simulation "gatling.test.example.simulation.ExampleGetSimulation"
 ```
 
 `job-template.yaml` template file.

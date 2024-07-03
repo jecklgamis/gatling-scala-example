@@ -10,7 +10,7 @@ image:
 run-bash:
 	docker run -i -t $(IMAGE_NAME):$(IMAGE_TAG) /bin/bash
 run:
-	docker run -e "JAVA_OPTS=-DbaseUrl=http://some-target-host:8080 -DdurationMin=0.25 -DrequestPerSecond=10" \
+	docker run -e "JAVA_OPTS=-DbaseUrl=http://localhost:8080 -DdurationMin=0.25 -DrequestPerSecond=10" \
   	-e SIMULATION_NAME=gatling.test.example.simulation.ExampleGetSimulation $(IMAGE_NAME):$(IMAGE_TAG)
 all: dist image
 clean:
