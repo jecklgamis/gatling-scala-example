@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jammy
+FROM eclipse-temurin:21-jre-jammy
 MAINTAINER Jerrico Gamis <jecklgamis@gmail.com>
 
 ENV APP_HOME /app
