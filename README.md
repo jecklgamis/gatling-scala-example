@@ -4,7 +4,7 @@
 
 This is an example test using [Gatling](https://gatling.io/). A minimal HTTP server is used as an example system under
 test.
-
+[Dockerfile](Dockerfile)
 This example demonstrates a number of ways of running simulations :
 
 * Running from an executable jar file - this packages the Gatling runtime and simulations into a single jar file
