@@ -1,35 +1,33 @@
 const http = require('http');
-let port = 5050;
 
 if (process.argv.length <= 2) {
-    console.log("Requires port number");
+    console.error("Requires port number");
     process.exit();
 }
 
+const port = process.argv[2];
 const host = "0.0.0.0";
-port = process.argv[2];
 
-const server = http.createServer(function (request, response) {
-    var body = [];
-    var request_log = {
+const server = http.createServer((req, res) => {
+    let body = [];
+    const requestLog = {
         type: "request",
-        method: request.method,
-        headers: request.headers,
-        host: request.headers.host
+        method: req.method,
+        headers: req.headers,
+        host: req.headers.host
     };
-    request.on('data', function (chunk) {
-        body.push(chunk);
-    }).on('end', function () {
-        body = Buffer.concat(body).toString();
-        var message = {"ok": "true", body: body};
-        request_log.body = body;
-        console.log(JSON.stringify(request_log));
-        response.end(JSON.stringify(message))
-    });
-    response.setHeader('X-Source', 'http-server.js');
 
+    req.on('data', chunk => body.push(chunk))
+        .on('end', () => {
+            body = Buffer.concat(body).toString();
+            requestLog.body = body;
+            console.log(JSON.stringify(requestLog));
+
+            res.setHeader('X-Source', 'http-server.js');
+            res.end(JSON.stringify({ ok: "true", body }));
+        });
 });
 
-server.listen(port, function () {
-    console.log("HTTP server listening on http://%s:%d", host, port);
+server.listen(port, () => {
+    console.log(`HTTP server listening on http://${host}:${port}`);
 });
