@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "gatling-scala-example.fullname" . }}
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      containers:
+        - name: gatling-scala-example
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: Always
+          env:
+            - name: JAVA_OPTS
+              value: "-DbaseUrl=http://localhost:8080  -DdurationMin=1 -DrequestPerSecond=10"
+            - name: SIMULATION_NAME
+              value: "gatling.test.example.simulation.ExampleSimulation"
+      restartPolicy: Never
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
