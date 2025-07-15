@@ -1,15 +1,15 @@
-var http = require('http');
-var port = 5050;
+const http = require('http');
+let port = 5050;
 
 if (process.argv.length <= 2) {
     console.log("Requires port number");
     process.exit();
 }
 
-var host = "0.0.0.0";
-var port = process.argv[2];
+const host = "0.0.0.0";
+port = process.argv[2];
 
-var server = http.createServer(function (request, response) {
+const server = http.createServer(function (request, response) {
     var body = [];
     var request_log = {
         type: "request",
