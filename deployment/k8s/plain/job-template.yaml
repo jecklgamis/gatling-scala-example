@@ -8,7 +8,7 @@ spec:
     spec:
       containers:
         - name: gatling-scala-example
-          image: jecklgamis/gatling-scala-example
+          image: jecklgamis/gatling-scala-example:main
           imagePullPolicy: Always
           env:
             - name: JAVA_OPTS

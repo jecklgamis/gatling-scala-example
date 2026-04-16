@@ -1,6 +1,6 @@
 # gatling-scala-example
 
-[![Build](https://github.com/jecklgamis/gatling-scala-example/actions/workflows/build.yml/badge.svg)](https://github.com/jecklgamis/gatling-scala-example/actions/workflows/build.yml)
+[![Build](https://github.com/jecklgamis/gatling-scala-example/actions/workflows/build.yaml/badge.svg)](https://github.com/jecklgamis/gatling-scala-example/actions/workflows/build.yaml)
 
 This is an example test using [Gatling](https://gatling.io/). A minimal HTTP server is used as an example system under
 test.
@@ -12,7 +12,6 @@ This example demonstrates a number of ways of running simulations :
 * Running as Kubernetes Job - this uses the Docker image to run test inside a Kubernetes cluster
 * Running using Maven plugin - this uses the Gatling Maven Plugin and runs directly from repo (note Gatling has plugins
   for Gradle and SBT that might suit your use case)
-* See [gatling-server](https://github.com/jecklgamis/gatling-server) for running simulations using an API server
 
 This is a **Github Template** project. You can create a copy of this project from a clean slate. Simply click
 <kbd>Use this template</kbd> button.
@@ -169,160 +168,45 @@ This runs `ExampleGetSimulation` test against an HTTP server `localhost` running
 
 ## Running Test as Kubernetes Job
 
-This assumes you have a basic knowledge on [Kubernetes](https://kubernetes.io/docs/tutorials/kubernetes-basics/)
-and a have access to a Kubernetes cluster. This usually means you have a properly configured `kubectl` config
-(`~/.kube/config`). Also ensure you have Python 3 installed.
+This assumes you have a basic knowledge of [Kubernetes](https://kubernetes.io/docs/tutorials/kubernetes-basics/),
+access to a Kubernetes cluster, a properly configured `kubectl` (`~/.kube/config`), and [Helm](https://helm.sh) installed.
 
-In this example setup, a  [Jinja2](https://palletsprojects.com/p/jinja/)  template `job-template.yaml` is used generate
-the actual Job yaml file to be used in `kubectl`. The helper script `./create-job-yaml.py` is used to generate this
-file.
+The simulation is deployed as a Kubernetes Job using the Helm chart in `deployment/k8s/helm/chart`.
 
-## The Test Results
+### Quick Start
 
-This is an example test run result from the IDE.
-
-```
-Simulation gatling.test.example.simulation.ExampleSimulation completed in 59 seconds
-Parsing log file(s)...
-Parsing log file(s) done
-Generating reports...
-
-================================================================================
----- Global Information --------------------------------------------------------
-> request count                                        600 (OK=600    KO=0     )
-> min response time                                      1 (OK=1      KO=-     )
-> max response time                                     10 (OK=10     KO=-     )
-> mean response time                                     2 (OK=2      KO=-     )
-> std deviation                                          1 (OK=1      KO=-     )
-> response time 50th percentile                          2 (OK=2      KO=-     )
-> response time 75th percentile                          2 (OK=2      KO=-     )
-> response time 95th percentile                          4 (OK=4      KO=-     )
-> response time 99th percentile                          5 (OK=5      KO=-     )
-> mean requests/sec                                     10 (OK=10     KO=-     )
----- Response Time Distribution ------------------------------------------------
-> t < 800 ms                                           600 (100%)
-> 800 ms < t < 1200 ms                                   0 (  0%)
-> t > 1200 ms                                            0 (  0%)
-> failed                                                 0 (  0%)
-================================================================================
-
-Reports generated in 0s.
-Please open the following <some-dir>/target/results/examplesimulation-1503897964328/index.html
-Global: max of response time is less than 500.0 : true
-Global: mean of response time is less than 1000.0 : true
-Global: percentage of successful requests is greater than 95.0 : true
+```bash
+./run-simulation-using-kubernetes.sh
 ```
 
-A more detailed test result in HTML can be found in `target/results`.
+### Configuration
 
-#### Install Python 3 dependencies
+The script is configured via environment variables:
 
-```
-pip3 install jinja2 argparse
-```
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `SIMULATION_NAME` | `ExampleGetSimulation` | Fully qualified simulation class name |
+| `BASE_URL` | `http://localhost:8080` | Target URL |
+| `DURATION_MIN` | `0.25` | Test duration in minutes |
+| `REQUEST_PER_SECOND` | `10` | Load rate |
+| `P95_RESPONSE_TIME_MS` | `250` | 95th percentile threshold (ms) |
+| `IMAGE_REPOSITORY` | `jecklgamis/gatling-scala-example` | Docker image repository |
+| `IMAGE_TAG` | `main` | Docker image tag |
+| `NAMESPACE` | `default` | Kubernetes namespace |
+| `TIMEOUT` | `300s` | Job completion timeout |
 
-Here is a demo run using the helper scripts in `deployment/k8s/job`.
+Example:
 
-![Kubernetes Job Demo](k8s-job-demo.gif)
-
-You should be able to replicate it in your local environment.
-
-```shell script
-cd deployment/k8s/job
-./demo-run-in-k8s.sh
-```
-
-For a step by step procedure, read on.
-
-1. Generate `job.yaml` from `job-template.yaml`
-
-```
-cd deployment/k8s/job
-./create-job-yaml.py --out job.yaml --name gatling-scala-example --java_opts "-DbaseUrl=http://localhost:8080 -DdurationMin=0.25 -DrequestPerSecond=10" --simulation "gatling.test.example.simulation.ExampleGetSimulation"
+```bash
+BASE_URL=http://my-service:8080 \
+  SIMULATION_NAME=gatling.test.example.simulation.ExamplePostSimulation \
+  REQUEST_PER_SECOND=50 \
+  ./run-simulation-using-kubernetes.sh
 ```
 
-`job-template.yaml` template file.
+The script installs a Helm release with a unique timestamped name, waits for the job to complete or fail,
+prints simulation logs, and uninstalls the release automatically.
 
-```
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: "{{ name }}"
-spec:
-  backoffLimit: 0
-  template:
-    spec:
-      containers:
-        - name: gatling-scala-example
-          image: jecklgamis/gatling-scala-example
-          imagePullPolicy: Always
-          env:
-            - name: JAVA_OPTS
-              value: "{{ java_opts }}"
-            - name: SIMULATION_NAME
-              value: "{{ simulation_name }}"
-      restartPolicy: Never
-```
-
-2. Create Job
-
-```shell script
-kubectl apply -f job.yaml
-```
-
-Example output:
-
-```shell script
-job.batch/gatling-scala-example created
-```
-
-3. View Job
-
-```shell script
-kubectl get jobs/gatling-scala-example -o wide
-```
-
-Example output:
-
-```shell script
-NAME                   COMPLETIONS   DURATION   AGE   CONTAINERS             IMAGES                            SELECTOR
-gatling-scala-example   1/1           24s        25s   gatling-scala-example   jecklgamis/gatling-scala-example   controller-uid=2f37ee78-09b9-4aa9-90ac-872db13522b6
-```
-
-4. View Pods
-
-```shell script
-kubectl get pods -l job-name=gatling-scala-example -o wide
-```
-
-Example output:
-
-```shell script
-NAME                         READY   STATUS      RESTARTS   AGE   IP             NODE      NOMINATED NODE   READINESS GATES
-gatling-scala-example-2mz4s   0/1     Completed   0          56s   10.244.0.237   okinawa   <none>           <none>
-```
-
-5. Get Pod Logs
-
-```shell script
-kubectl logs <pod-name>
-```
-
-6. Delete Job
-
-```shell script
-kubectl delete -f job.yaml
-```
-
-### Reference Helper Scripts
-
-The scripts below can be found in `deployment/k8s/job` directory.
-
-* [create-job.sh](deployment/k8s/job/create-job.sh)
-* [describe-job.sh](deployment/k8s/job/describe-job.sh)
-* [describe-pod.sh](deployment/k8s/job/describe-pod.sh)
-* [wait-job.sh](deployment/k8s/job/wait-job.sh)
-* [delete-job.sh](deployment/k8s/job/delete-job.sh)
 
 ## Example Target Apps
 
@@ -342,7 +226,8 @@ Spring Boot Apps:
 
 Flask App:
 
-* https://github.com/jecklgamis/flask-example-app
+* https://github.com/jecklgamis/flask-app-example
+* https://github.com/jecklgamis/fastapi-app-example
 
 ## Links
 

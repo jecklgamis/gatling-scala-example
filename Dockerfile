@@ -1,19 +1,16 @@
 FROM eclipse-temurin:21-jre-jammy
-MAINTAINER Jerrico Gamis <jecklgamis@gmail.com>
+LABEL maintainer="Jerrico Gamis <jecklgamis@gmail.com>"
 
-ENV APP_HOME /app
-RUN mkdir -m 0755 -p ${APP_HOME}/bin
+ENV APP_HOME=/app
 
 COPY target/gatling-scala-example.jar ${APP_HOME}/bin/
 COPY docker-entrypoint.sh /
-RUN chmod +x /docker-entrypoint.sh
 
-RUN groupadd -r gatling && useradd -r -ggatling gatling
-RUN chown -R gatling:gatling ${APP_HOME}
-RUN chown gatling:gatling /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh && \
+    groupadd -r gatling && useradd -r -g gatling gatling && \
+    chown -R gatling:gatling ${APP_HOME} /docker-entrypoint.sh
 
 USER gatling
 WORKDIR ${APP_HOME}
 
 CMD ["/docker-entrypoint.sh"]
-

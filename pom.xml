@@ -20,7 +20,7 @@
         <dependency>
             <groupId>io.gatling.highcharts</groupId>
             <artifactId>gatling-charts-highcharts</artifactId>
-            <version>3.14.9</version>
+            <version>3.15.0</version>
         </dependency>
     </dependencies>
 
@@ -70,7 +70,7 @@
                 <version>3.6.0</version>
                 <configuration>
                     <finalName>${project.name}</finalName>
-                    <createDependencyReducedPom>true</createDependencyReducedPom>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
                     <filters>
                         <filter>
                             <artifact>*:*</artifact>
@@ -120,7 +120,7 @@
             <plugin>
                 <groupId>io.gatling</groupId>
                 <artifactId>gatling-maven-plugin</artifactId>
-                <version>4.19.1</version>
+                <version>4.21.5</version>
                 <configuration>
                     <runMultipleSimulations>false</runMultipleSimulations>
                     <simulationClass>gatling.test.example.simulation.ExampleSimulation</simulationClass>

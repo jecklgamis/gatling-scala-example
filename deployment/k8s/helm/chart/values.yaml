@@ -52,3 +52,7 @@ resources: { }
 nodeSelector: { }
 tolerations: [ ]
 affinity: { }
+
+simulation:
+  name: "gatling.test.example.simulation.ExampleGetSimulation"
+  javaOpts: "-DbaseUrl=http://localhost:8080 -DdurationMin=0.25 -DrequestPerSecond=10 -Dp95ResponseTimeMs=250"

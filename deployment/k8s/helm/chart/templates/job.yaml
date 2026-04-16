@@ -2,6 +2,8 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: {{ include "gatling-scala-example.fullname" . }}
+  labels:
+    {{- include "gatling-scala-example.labels" . | nindent 4 }}
 spec:
   backoffLimit: 0
   template:
@@ -12,9 +14,9 @@ spec:
           imagePullPolicy: Always
           env:
             - name: JAVA_OPTS
-              value: "-DbaseUrl=http://localhost:8080  -DdurationMin=1 -DrequestPerSecond=10"
+              value: "{{ .Values.simulation.javaOpts }}"
             - name: SIMULATION_NAME
-              value: "gatling.test.example.simulation.ExampleSimulation"
+              value: "{{ .Values.simulation.name }}"
       restartPolicy: Never
       {{- with .Values.nodeSelector }}
       nodeSelector:
