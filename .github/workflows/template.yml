@@ -10,7 +10,7 @@ jobs:
     if: github.event.repository.name != 'gatling-scala-example'
     steps:
       - name: Fetch Sources
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@v7.0.1
       - name: Prepare
         run: |
           export LC_CTYPE=C
@@ -89,7 +89,7 @@ jobs:
           git add .
           git commit -m "Template cleanup"
       - name: Push changes
-        uses: ad-m/github-push-action@master
+        uses: ad-m/github-push-action@v1.3.0
         with:
           branch: main
           github_token: ${{ secrets.GITHUB_TOKEN }}
