@@ -17,7 +17,7 @@ This is a **Github Template** project. You can create a copy of this project fro
 <kbd>Use this template</kbd> button.
 
 ## Requirements 
-* JDK 21
+* JDK 25
 
 ## Java and Kotlin DSL
 
