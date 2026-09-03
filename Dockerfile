@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jre-jammy
+FROM eclipse-temurin:25-jre-jammy
 LABEL maintainer="Jerrico Gamis <jecklgamis@gmail.com>"
 
 ENV APP_HOME=/app
