@@ -6,7 +6,8 @@ ENV APP_HOME=/app
 COPY target/gatling-scala-example.jar ${APP_HOME}/bin/
 COPY docker-entrypoint.sh /
 
-RUN chmod +x /docker-entrypoint.sh && \
+RUN mkdir -p ${APP_HOME}/.java && \
+    chmod +x /docker-entrypoint.sh && \
     groupadd -r gatling && useradd -r -g gatling gatling && \
     chown -R gatling:gatling ${APP_HOME} /docker-entrypoint.sh
 
