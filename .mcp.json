@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "gatling": {
+      "type": "http",
+      "url": "http://localhost:58090/gatling_mcp",
+      "headers": {
+        "Authorization": "Bearer ${GATLING_MCP_API_TOKEN}"
+      }
+    }
+  }
+}
