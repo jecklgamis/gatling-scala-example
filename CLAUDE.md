@@ -46,6 +46,21 @@ docker run -e "JAVA_OPTS=-DbaseUrl=http://localhost:8080" \
 ./run-simulation-using-kubernetes.sh
 ```
 
+**Via gatling-server (remote submission, no local JVM):**
+```bash
+curl -H "Authorization: Bearer ${API_TOKEN}" \
+  -F "file=@target/gatling-scala-example.jar" \
+  -F "simulation=gatling.test.example.simulation.ExampleSimulation" \
+  -F "javaOpts=-DbaseUrl=http://localhost:8080 -DdurationMin=1 -DrequestPerSecond=10" \
+  http://localhost:58080/task/upload
+```
+See [gatling-server](https://github.com/jecklgamis/gatling-server) for setup and the full API.
+
+**Via gatling-mcp-server (AI agent, natural language):**
+This repo has a project-scoped `.mcp.json` connecting to
+[gatling-mcp-server](https://github.com/jecklgamis/gatling-mcp-server) - an MCP-capable AI client can upload the
+jar and submit/monitor a run just by describing what you want, instead of the `curl` above.
+
 ## Convenience Scripts
 
 | Script | Description |

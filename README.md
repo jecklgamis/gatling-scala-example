@@ -207,6 +207,35 @@ BASE_URL=http://my-service:8080 \
 The script installs a Helm release with a unique timestamped name, waits for the job to complete or fail,
 prints simulation logs, and uninstalls the release automatically.
 
+## Running via gatling-server
+
+[gatling-server](https://github.com/jecklgamis/gatling-server) can host and run this simulation remotely - upload
+the jar once, then submit runs against it without a local JVM:
+
+```bash
+curl -v \
+  -H "Authorization: Bearer ${API_TOKEN}" \
+  -F "file=@target/gatling-scala-example.jar" \
+  -F "simulation=gatling.test.example.simulation.ExampleSimulation" \
+  -F "javaOpts=-DbaseUrl=http://localhost:8080 -DdurationMin=1 -DrequestPerSecond=10" \
+  http://localhost:58080/task/upload
+```
+
+See [gatling-server](https://github.com/jecklgamis/gatling-server) for setup, the full API, and how to poll task
+status/logs afterward.
+
+### AI Integration
+
+This repo is pre-configured with a project-scoped `.mcp.json` connecting to
+[gatling-mcp-server](https://github.com/jecklgamis/gatling-mcp-server), so an MCP-capable AI client (Claude Code,
+Claude.ai, Cursor, etc.) can upload the jar and submit/monitor a run just by describing what you want instead of
+hand-writing the `curl` command above, e.g.:
+
+> Upload target/gatling-scala-example.jar and run gatling.test.example.simulation.ExampleSimulation against
+> http://localhost:8080 for 1 minute at 10 requests per second.
+
+Run `claude mcp list` to confirm the connection is active - gatling-mcp-server itself must be running, and
+`GATLING_MCP_API_TOKEN` must be set in your shell.
 
 ## Example Target Apps
 
