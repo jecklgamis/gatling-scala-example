@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "gatling": {
+    "gatling-mcp-server": {
       "type": "http",
       "url": "http://localhost:58090/gatling_mcp",
       "headers": {
