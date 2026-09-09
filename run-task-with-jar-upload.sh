@@ -17,4 +17,4 @@ curl -v \
   -F "file=@${JAR_FILE}" \
   -F "simulation=${SIMULATION_NAME}" \
   -F "javaOpts=${JAVA_OPTS}" \
-  "${GATLING_SERVER_URL}/task/upload/http"
+  "${GATLING_SERVER_URL}/task/upload"
