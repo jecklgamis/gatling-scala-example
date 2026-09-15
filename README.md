@@ -241,6 +241,11 @@ Run `claude mcp list` to confirm the connection is active - gatling-mcp-server i
 
 Some example apps.
 
+No server to test against? [http-sink](https://github.com/jecklgamis/http-sink) is a minimal request sink built for
+exactly this — accepts any method/subpath, echoes it back, and can simulate latency/failures per path. Run it locally
+(`docker run --name http-sink -p 38080:38080 -it jecklgamis/http-sink:main`) or use the live instance at
+https://http-sink.jecklgamis.com.
+
 Dropwizard Apps:
 
 * https://github.com/jecklgamis/dropwizard-java-example
