@@ -207,22 +207,64 @@ BASE_URL=http://my-service:8080 \
 The script installs a Helm release with a unique timestamped name, waits for the job to complete or fail,
 prints simulation logs, and uninstalls the release automatically.
 
-## Running via gatling-server
+## Running Using Gatling Server
 
-[gatling-server](https://github.com/jecklgamis/gatling-server) can host and run this simulation remotely - upload
-the jar once, then submit runs against it without a local JVM:
+[gatling-server](https://github.com/jecklgamis/gatling-server) can host and run this simulation remotely, without
+a local JVM. Start it first:
+
+```bash
+docker run -it --name gatling-server -p 58080:58080 -e API_TOKEN=some-secret-token jecklgamis/gatling-server:main
+```
+
+### Submit a Task
+
+Build the jar (`./mvnw clean package`), then submit it one of two ways.
+
+**Upload the jar and run it in one call:**
 
 ```bash
 curl -v \
-  -H "Authorization: Bearer ${API_TOKEN}" \
+  -H "Authorization: Bearer some-secret-token" \
   -F "file=@target/gatling-scala-example.jar" \
   -F "simulation=gatling.test.example.simulation.ExampleSimulation" \
   -F "javaOpts=-DbaseUrl=http://localhost:8080 -DdurationMin=1 -DrequestPerSecond=10" \
   http://localhost:58080/task/upload
 ```
 
-See [gatling-server](https://github.com/jecklgamis/gatling-server) for setup, the full API, and how to poll task
-status/logs afterward.
+**Or, if the jar is already reachable via an http(s)/S3 URL, submit by reference instead:**
+
+```bash
+curl -v \
+  -H "Authorization: Bearer some-secret-token" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "simulation": "gatling.test.example.simulation.ExampleSimulation",
+        "javaOpts": "-DbaseUrl=http://localhost:8080 -DdurationMin=1 -DrequestPerSecond=10",
+        "url": "https://example.com/gatling-scala-example.jar"
+      }' \
+  http://localhost:58080/task/submit
+```
+
+Both return a `taskId`.
+
+### Check Status and Results
+
+```bash
+# Runtime status
+curl -H "Authorization: Bearer some-secret-token" http://localhost:58080/task/{taskId}
+
+# Console log / Gatling's simulation log / results archive
+curl -H "Authorization: Bearer some-secret-token" http://localhost:58080/task/console/{taskId}
+curl -H "Authorization: Bearer some-secret-token" http://localhost:58080/task/simulationLog/{taskId}
+curl -H "Authorization: Bearer some-secret-token" http://localhost:58080/task/results/{taskId} -o results.tar.gz
+```
+
+Or browse the raw task workspace (console log, Gatling report, simulation log) in a browser at
+`http://localhost:58080/workspace/{taskId}/` - protected by HTTP Basic Auth (`default`/`default` unless
+`BROWSE_USERNAME`/`BROWSE_PASSWORD` were set).
+
+See the [gatling-server docs](https://jecklgamis.github.io/gatling-server/) for the full API reference, deployment
+options, and AI integration.
 
 ### AI Integration
 
